@@ -1,23 +1,25 @@
 {
   "name": "nettrine/migrations",
   "description": "Migrations",
-  "keywords": [
-    "nette",
-    "doctrine",
-    "migrations"
-  ],
+  "keywords": ["nette", "doctrine", "migrations"],
   "type": "library",
-  "license": [
-    "MIT"
+  "license": ["MIT"],
+  "homepage": "https://github.com/nettrine/migrations",
+  "authors": [
+    {
+      "name": "Milan Felix Sulc",
+      "homepage": "https://f3l1x.io"
+    }
   ],
   "require": {
     "php": ">=5.6",
-    "doctrine/migrations": "^1.4",
-    "nette/di": "^2.4"
+    "doctrine/migrations": "^1.5.0",
+    "nette/di": "^2.4.9",
+    "symfony/console": "^3.3.6"
   },
   "autoload": {
     "psr-4": {
-      "Nettrine\\Migrations\\": "src"
+      "Nettrine\\Migrations\\": "src/"
     }
   }
 }
