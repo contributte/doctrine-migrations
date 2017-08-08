@@ -60,7 +60,7 @@ final class MigrationsExtension extends CompilerExtension
 		//Register configuration
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
-			->setClass(ContainerAwareConfiguration::class)
+			->setClass(ContainerAwareConfiguration::class,  [null, null]) //TODO
 			->addSetup('setContainer', [new Statement('@container')])
 			->addSetup('setMigrationsTableName', [$config['table']])
 			->addSetup('setMigrationsColumnName', [$config['column']])

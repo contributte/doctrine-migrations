@@ -21,5 +21,8 @@
     "psr-4": {
       "Nettrine\\Migrations\\": "src/"
     }
+  },
+  "require-dev": {
+    "ninjify/nunjuck": "^0.1.4"
   }
 }
