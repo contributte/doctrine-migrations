@@ -19,9 +19,7 @@ use Nettrine\Migrations\Helper\ConfigurationHelper;
 final class MigrationsExtension extends CompilerExtension
 {
 
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	private $defaults = [
 		'table' => 'doctrine_migrations',
 		'column' => 'version',
@@ -60,7 +58,7 @@ final class MigrationsExtension extends CompilerExtension
 		//Register configuration
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
-			->setClass(ContainerAwareConfiguration::class,  [null, null]) //TODO
+			->setClass(ContainerAwareConfiguration::class)
 			->addSetup('setContainer', [new Statement('@container')])
 			->addSetup('setMigrationsTableName', [$config['table']])
 			->addSetup('setMigrationsColumnName', [$config['column']])

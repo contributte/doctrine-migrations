@@ -9,9 +9,7 @@ use Nette\DI\Container;
 class ContainerAwareConfiguration extends Configuration
 {
 
-	/**
-	 * @var Container
-	 */
+	/** @var Container */
 	private $container;
 
 	/**

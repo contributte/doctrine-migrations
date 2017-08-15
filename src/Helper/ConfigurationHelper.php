@@ -11,9 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 class ConfigurationHelper extends BaseConfigurationHelper
 {
 
-	/**
-	 * @var Configuration
-	 */
+	/** @var Configuration */
 	private $configuration;
 
 	/**
