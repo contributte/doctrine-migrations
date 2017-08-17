@@ -18,7 +18,6 @@ require_once __DIR__ . '/../../bootstrap.php';
 test(function () {
 	$loader = new ContainerLoader(TEMP_DIR, TRUE);
 	$class = $loader->load(function (Compiler $compiler) {
-
 		//Required services and params
 		$compiler->loadConfig(FileMock::create('
 			parameters:

@@ -8,8 +8,9 @@
 
 ## Usage
 
-- Use Symfony/Console integration [Contributte/Console](https://github.com/contributte/console)
-- Register extension
+Use Symfony/Console integration [Contributte/Console](https://github.com/contributte/console).
+
+Register extension.
 
 ```yaml
 extensions:
@@ -18,7 +19,7 @@ extensions:
 
 ## Configuration
 
-- Default configuration
+Default configuration.
 
 ```yaml
 migrations:
@@ -31,5 +32,6 @@ migrations:
 
 ## Commands
 
-[TODO]
+Now you can use commands from doctrine/migrations.
 
+![commands](https://raw.githubusercontent.com/nettrine/migrations/master/.docs/commands.png)

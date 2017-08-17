@@ -17,12 +17,25 @@
     "nette/di": "^2.4.9",
     "symfony/console": "^3.3.6"
   },
+  "require-dev": {
+    "ninjify/qa": "~0.4.0",
+    "ninjify/nunjuck": "~0.1.4"
+  },
   "autoload": {
     "psr-4": {
       "Nettrine\\Migrations\\": "src/"
     }
   },
-  "require-dev": {
-    "ninjify/nunjuck": "^0.1.4"
+  "scripts": {
+    "qa": [
+      "linter src tests",
+      "codesniffer src tests"
+    ],
+    "tester": [
+      "tester -s -p php --colors 1 -c tests/php-unix.ini tests/cases"
+    ],
+    "tester-coverage": [
+      "tester -s -p php --colors 1 -c tests/php-unix.ini -d extension=xdebug.so --coverage ./coverage.xml --coverage-src ./src tests/cases"
+    ]
   }
 }

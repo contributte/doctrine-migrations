@@ -14,6 +14,7 @@ class ContainerAwareConfiguration extends Configuration
 
 	/**
 	 * @param Container $container
+	 * @return void
 	 */
 	public function setContainer(Container $container)
 	{
