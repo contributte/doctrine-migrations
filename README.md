@@ -14,7 +14,7 @@
 
 ## Discussion / Help
 
-[![Join the chat](https://img.shields.io/gitter/room/nettrine/nettrine.svg?style=flat-square)](http://bit.ly/ctteg)
+[![Join the chat](https://img.shields.io/gitter/room/nettrine/nettrine.svg?style=flat-square)](https://gitter.im/nettrine/nettrine)
 
 ## Install
 
