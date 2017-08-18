@@ -8,30 +8,37 @@
 
 ## Usage
 
-Use Symfony/Console integration [Contributte/Console](https://github.com/contributte/console).
+At first you should register `MigrationsExtension` at your config file.
 
-Register extension.
 
 ```yaml
 extensions:
     migrations: Nettrine\Migrations\DI\MigrationsExtension
 ```
 
+This extension high depends on Symfony\Console, it does not work without it. Take
+a look at [Contributte/Console](https://github.com/contributte/console) integration.
+
+```yaml
+extensions:
+    console: Contributte\Console\DI\ConsoleExtension
+```
+
 ## Configuration
 
-Default configuration.
+Default configuration looks like:
 
 ```yaml
 migrations:
-    table: doctrine_migrations # database table for applied migrations
-    column: version # database column for applied migrations
-    directory: %appDir%/../migrations # directory, where all migrations are stored
-    namespace: Migrations # namespace of migration classes
-    versionsOrganization: null # null, "year" or "year_and_month", organizes migrations to subdirectories
+    table: doctrine_migrations 
+    column: version
+    directory: %appDir%/../migrations
+    namespace: Migrations
+    versionsOrganization: null # null, year, year_and_month
 ```
 
 ## Commands
 
-Now you can use commands from doctrine/migrations.
+Type `bin/console` in your terminal and there should be a `migrations` command group.
 
-![commands](https://raw.githubusercontent.com/nettrine/migrations/master/.docs/commands.png)
+![commands](https://raw.githubusercontent.com/nettrine/migrations/master/.docs/assets/commands.png)

@@ -1,6 +1,6 @@
 # Migrations
 
-[Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) to Nette Framework
+:running: [Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) to Nette Framework.
 
 -----
 
