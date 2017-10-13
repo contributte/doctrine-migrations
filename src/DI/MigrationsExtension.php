@@ -19,7 +19,7 @@ use Nettrine\Migrations\Helper\ConfigurationHelper;
 final class MigrationsExtension extends CompilerExtension
 {
 
-	/** @var string[] */
+	/** @var mixed[] */
 	private $defaults = [
 		'table' => 'doctrine_migrations',
 		'column' => 'version',

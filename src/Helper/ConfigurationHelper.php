@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 class ConfigurationHelper extends BaseConfigurationHelper
 {
 
-	/** @var Configuration */
+	/** @var Configuration|NULL */
 	private $configuration;
 
 	/**
@@ -31,8 +31,9 @@ class ConfigurationHelper extends BaseConfigurationHelper
 	 */
 	public function getMigrationConfig(InputInterface $input, OutputWriter $outputWriter)
 	{
-		$this->configuration->setOutputWriter($outputWriter);
-
+		if ($this->configuration !== NULL) {
+			$this->configuration->setOutputWriter($outputWriter);
+		}
 		return $this->configuration;
 	}
 
