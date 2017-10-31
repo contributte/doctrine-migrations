@@ -1,6 +1,6 @@
 {
   "name": "nettrine/migrations",
-  "description": "Migrations",
+  "description": "Doctrine Migrations for Nette Framework",
   "keywords": ["nette", "doctrine", "migrations"],
   "type": "library",
   "license": ["MIT"],
