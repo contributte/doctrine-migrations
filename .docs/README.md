@@ -10,14 +10,17 @@
 
 At first you should register `MigrationsExtension` at your config file.
 
-
 ```yaml
 extensions:
     migrations: Nettrine\Migrations\DI\MigrationsExtension
 ```
 
-This extension high depends on Symfony\Console, it does not work without it. Take
-a look at [Contributte/Console](https://github.com/contributte/console) integration.
+This extension is highly depending on `Symfony\Console`, it does not make sence to use it without `Console`. Take
+a look at simple [Contributte/Console](https://github.com/contributte/console) integration.
+
+```
+composer require contributte/console
+```
 
 ```yaml
 extensions:
@@ -26,7 +29,7 @@ extensions:
 
 ## Configuration
 
-Default configuration looks like:
+Default configuration looks like this:
 
 ```yaml
 migrations:
