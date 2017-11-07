@@ -15,6 +15,7 @@ use Nette\DI\Helpers;
 use Nette\DI\Statement;
 use Nettrine\Migrations\ContainerAwareConfiguration;
 use Nettrine\Migrations\Helper\ConfigurationHelper;
+use Symfony\Component\Console\Application;
 
 final class MigrationsExtension extends CompilerExtension
 {
@@ -37,24 +38,6 @@ final class MigrationsExtension extends CompilerExtension
 		$config = $this->validateConfig($this->defaults);
 		$config = Helpers::expand($config, $builder->parameters);
 
-		//Register commands
-		$builder->addDefinition($this->prefix('diffCommand'))
-			->setClass(DiffCommand::class);
-		$builder->addDefinition($this->prefix('executeCommand'))
-			->setClass(ExecuteCommand::class);
-		$builder->addDefinition($this->prefix('generateCommand'))
-			->setClass(GenerateCommand::class);
-		$builder->addDefinition($this->prefix('latestCommand'))
-			->setClass(LatestCommand::class);
-		$builder->addDefinition($this->prefix('migrateCommand'))
-			->setClass(MigrateCommand::class);
-		$builder->addDefinition($this->prefix('statusCommand'))
-			->setClass(StatusCommand::class);
-		$builder->addDefinition($this->prefix('upToDateCommand'))
-			->setClass(UpToDateCommand::class);
-		$builder->addDefinition($this->prefix('versionCommand'))
-			->setClass(VersionCommand::class);
-
 		//Register configuration
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
@@ -70,10 +53,53 @@ final class MigrationsExtension extends CompilerExtension
 		elseif ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH)
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
 
+		//Register commands
+		$builder->addDefinition($this->prefix('diffCommand'))
+			->setClass(DiffCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('executeCommand'))
+			->setClass(ExecuteCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('generateCommand'))
+			->setClass(GenerateCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('latestCommand'))
+			->setClass(LatestCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('migrateCommand'))
+			->setClass(MigrateCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('statusCommand'))
+			->setClass(StatusCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('upToDateCommand'))
+			->setClass(UpToDateCommand::class)
+			->setAutowired(FALSE);
+		$builder->addDefinition($this->prefix('versionCommand'))
+			->setClass(VersionCommand::class)
+			->setAutowired(FALSE);
+
 		//Register configuration helper
 		$builder->addDefinition($this->prefix('configurationHelper'))
 			->setClass(ConfigurationHelper::class)
 			->setAutowired(FALSE);
+	}
+
+	/**
+	 * Decorate services
+	 *
+	 * @return void
+	 */
+	public function beforeCompile()
+	{
+		$builder = $this->getContainerBuilder();
+		$application = $builder->getByType(Application::class, FALSE);
+		if (!$application)
+			return;
+		$def = $builder->getDefinition($application);
+		// Register helpers
+		$configurationHelper = '@' . $this->prefix('configurationHelper');
+		$def->addSetup(new Statement('$service->getHelperSet()->set(?)', [$configurationHelper]));
 	}
 
 }

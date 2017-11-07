@@ -24,6 +24,7 @@ test(function () {
 				appDir: "/srv/app"
 
 			services:
+			 - Symfony\Component\Console\Application
 			 - Doctrine\DBAL\Driver\Mysqli\Driver
 			 - Doctrine\DBAL\Connection([])
 		', 'neon'));
