@@ -40,6 +40,16 @@ migrations:
     versionsOrganization: null # null, year, year_and_month
 ```
 
+### Kdyby/Doctrine
+
+If you want use [Kdyby/Doctrine](https://github.com/Kdyby/Doctrine), please use this additional configuration: 
+
+```yaml
+decorator:
+    Symfony\Component\Console\Command\Command:
+        tags: [kdyby.console.command]
+```
+
 ## Commands
 
 Type `bin/console` in your terminal and there should be a `migrations` command group.
