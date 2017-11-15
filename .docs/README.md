@@ -42,7 +42,7 @@ migrations:
 
 ### Kdyby/Doctrine
 
-If you want use [Kdyby/Doctrine](https://github.com/Kdyby/Doctrine), please use this additional configuration: 
+If you want to use [Kdyby/Doctrine](https://github.com/Kdyby/Doctrine), please use this additional configuration: 
 
 ```yaml
 decorator:
