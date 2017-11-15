@@ -38,7 +38,7 @@ final class MigrationsExtension extends CompilerExtension
 		$config = $this->validateConfig($this->defaults);
 		$config = Helpers::expand($config, $builder->parameters);
 
-		//Register configuration
+		// Register configuration
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
 			->setClass(ContainerAwareConfiguration::class)
@@ -53,7 +53,7 @@ final class MigrationsExtension extends CompilerExtension
 		elseif ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH)
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
 
-		//Register commands
+		// Register commands
 		$builder->addDefinition($this->prefix('diffCommand'))
 			->setClass(DiffCommand::class)
 			->setAutowired(FALSE);
@@ -79,7 +79,7 @@ final class MigrationsExtension extends CompilerExtension
 			->setClass(VersionCommand::class)
 			->setAutowired(FALSE);
 
-		//Register configuration helper
+		// Register configuration helper
 		$builder->addDefinition($this->prefix('configurationHelper'))
 			->setClass(ConfigurationHelper::class)
 			->setAutowired(FALSE);
@@ -93,13 +93,15 @@ final class MigrationsExtension extends CompilerExtension
 	public function beforeCompile()
 	{
 		$builder = $this->getContainerBuilder();
+
+		// Register console helper only if console is provided
 		$application = $builder->getByType(Application::class, FALSE);
-		if (!$application)
-			return;
-		$def = $builder->getDefinition($application);
-		// Register helpers
-		$configurationHelper = '@' . $this->prefix('configurationHelper');
-		$def->addSetup(new Statement('$service->getHelperSet()->set(?)', [$configurationHelper]));
+		if ($application) {
+			$applicationDef = $builder->getDefinition($application);
+			$applicationDef->addSetup(
+				new Statement('$service->getHelperSet()->set(?)', ['@' . $this->prefix('configurationHelper')])
+			);
+		}
 	}
 
 }
