@@ -48,6 +48,8 @@ If you want to use [Kdyby/Doctrine](https://github.com/Kdyby/Doctrine), please u
 decorator:
     Symfony\Component\Console\Command\Command:
         tags: [kdyby.console.command]
+    Symfony\Component\Console\Helper\Helper:
+        tags: [kdyby.console.helper]
 ```
 
 ## Commands
