@@ -26,7 +26,7 @@ composer require nettrine/migrations
 
 | State       | Version | Branch   | PHP      |
 |-------------|---------|----------|----------|
-| stable      | `^0.1`  | `master` | `>= 5.6` |
+| stable      | `^0.2`  | `master` | `>= 5.6` |
 
 ## Overview
 
