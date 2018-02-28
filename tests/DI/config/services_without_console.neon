@@ -1,0 +1,6 @@
+parameters:
+	appDir: "/srv/app"
+
+services:
+	- Doctrine\DBAL\Driver\Mysqli\Driver
+	- Doctrine\DBAL\Connection([])
