@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Nettrine\Migrations;
 
@@ -16,17 +16,18 @@ class ContainerAwareConfiguration extends Configuration
 	 * @param Container $container
 	 * @return void
 	 */
-	public function setContainer(Container $container)
+	public function setContainer(Container $container): void
 	{
 		$this->container = $container;
 	}
 
 	/**
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @param string $direction
 	 * @param string $to
-	 * @return array
+	 * @return mixed[]
 	 */
-	public function getMigrationsToExecute($direction, $to)
+	public function getMigrationsToExecute($direction, $to): array
 	{
 		$versions = parent::getMigrationsToExecute($direction, $to);
 		if ($this->container) {
@@ -38,6 +39,7 @@ class ContainerAwareConfiguration extends Configuration
 	}
 
 	/**
+	 * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingParameterTypeHint
 	 * @param string $version
 	 * @return Version|string
 	 */

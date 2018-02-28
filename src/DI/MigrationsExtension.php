@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Nettrine\Migrations\DI;
 
@@ -32,7 +32,7 @@ final class MigrationsExtension extends CompilerExtension
 	/**
 	 * @return void
 	 */
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->validateConfig($this->defaults);
@@ -90,18 +90,19 @@ final class MigrationsExtension extends CompilerExtension
 	 *
 	 * @return void
 	 */
-	public function beforeCompile()
+	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 
 		// Register console helper only if console is provided
 		$application = $builder->getByType(Application::class, FALSE);
-		if ($application) {
-			$applicationDef = $builder->getDefinition($application);
-			$applicationDef->addSetup(
-				new Statement('$service->getHelperSet()->set(?)', ['@' . $this->prefix('configurationHelper')])
-			);
+		if (!$application) {
+			return;
 		}
+		$applicationDef = $builder->getDefinition($application);
+		$applicationDef->addSetup(
+			new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])
+		);
 	}
 
 }

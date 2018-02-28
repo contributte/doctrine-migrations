@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Nettrine\Migrations\Helper;
 
@@ -18,7 +18,7 @@ class ConfigurationHelper extends BaseConfigurationHelper
 	 * @param Connection|NULL $connection
 	 * @param Configuration|NULL $configuration
 	 */
-	public function __construct(Connection $connection = NULL, Configuration $configuration = NULL)
+	public function __construct(?Connection $connection = NULL, ?Configuration $configuration = NULL)
 	{
 		parent::__construct($connection, $configuration);
 		$this->configuration = $configuration;
@@ -29,7 +29,7 @@ class ConfigurationHelper extends BaseConfigurationHelper
 	 * @param OutputWriter $outputWriter
 	 * @return Configuration|NULL
 	 */
-	public function getMigrationConfig(InputInterface $input, OutputWriter $outputWriter)
+	public function getMigrationConfig(InputInterface $input, OutputWriter $outputWriter): ?Configuration
 	{
 		if ($this->configuration !== NULL) {
 			$this->configuration->setOutputWriter($outputWriter);
