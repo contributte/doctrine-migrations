@@ -7,7 +7,7 @@
         <properties>
             <property name="rootNamespaces" type="array" value="
                 src=>Nettrine\Migrations,
-                tests=>Tests\Nettrine\Migrations,
+                tests/cases=>Tests\Nettrine\Migrations,
             "/>
         </properties>
     </rule>

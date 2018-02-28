@@ -19,7 +19,8 @@
   },
   "require-dev": {
     "ninjify/qa": "~0.7.0",
-    "phpunit/phpunit": "^7.0.2"
+    "phpunit/phpunit": "^7.0.2",
+    "mockery/mockery": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -28,13 +29,13 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\Nettrine\\Migrations\\": "tests/"
+      "Tests\\Nettrine\\Migrations\\": "tests/cases/"
     }
   },
   "scripts": {
     "qa": [
-      "linter src tests",
-      "codesniffer src tests"
+      "linter src tests/cases",
+      "codesniffer src tests/cases"
     ],
     "phpunit": [
       "phpunit tests --colors=always"

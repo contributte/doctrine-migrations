@@ -8,8 +8,8 @@ use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
 use Nettrine\Migrations\ContainerAwareConfiguration;
 use Nettrine\Migrations\DI\MigrationsExtension;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
+use Tests\Nettrine\Migrations\TestCase;
 
 final class MigrationsExtensionTest extends TestCase
 {
@@ -19,13 +19,13 @@ final class MigrationsExtensionTest extends TestCase
 	 */
 	public function testConsole(): void
 	{
-		$loader = new ContainerLoader(__DIR__ . '/temp', TRUE);
+		$loader = new ContainerLoader(TEMP_PATH, TRUE);
 		$class = $loader->load(function (Compiler $compiler): void {
 			// Required services and params
-			$compiler->loadConfig(__DIR__ . '/config/services.neon');
+			$compiler->loadConfig(FIXTURES_PATH . '/config/services.neon');
 			// Migrations
 			$compiler->addExtension('migrations', new MigrationsExtension());
-			$compiler->loadConfig(__DIR__ . '/config/default.neon');
+			$compiler->loadConfig(FIXTURES_PATH . '/config/default.neon');
 		}, 1);
 
 		/** @var Container $container */
@@ -45,13 +45,13 @@ final class MigrationsExtensionTest extends TestCase
 	 */
 	public function testWithoutConsole(): void
 	{
-		$loader = new ContainerLoader(__DIR__ . '/temp', TRUE);
+		$loader = new ContainerLoader(TEMP_PATH, TRUE);
 		$class = $loader->load(function (Compiler $compiler): void {
 			// Required services and params
-			$compiler->loadConfig(__DIR__ . '/config/services_without_console.neon');
+			$compiler->loadConfig(FIXTURES_PATH . '/config/services_without_console.neon');
 			// Migrations
 			$compiler->addExtension('migrations', new MigrationsExtension());
-			$compiler->loadConfig(__DIR__ . '/config/default.neon');
+			$compiler->loadConfig(FIXTURES_PATH . '/config/default.neon');
 		}, 2);
 
 		/** @var Container $container */
