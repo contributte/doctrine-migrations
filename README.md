@@ -32,7 +32,7 @@ composer require nettrine/migrations
 
 - [Usage - how to register](https://github.com/nettrine/migrations/blob/master/.docs/README.md#usage)
 - [Extension - how to configure](https://github.com/nettrine/migrations/blob/master/.docs/README.md#configuration)
-    - How to use with Kdyby\Console
+	- [How to use with Kdyby\Console](https://github.com/nettrine/migrations/blob/master/.docs/README.md#kdybydoctrine)
 - [Usage - list of available commands](https://github.com/nettrine/migrations/blob/master/.docs/README.md#commands)
 
 ## Maintainers
