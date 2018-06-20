@@ -13,9 +13,6 @@ use Tests\Nettrine\Migrations\TestCase;
 final class ConfigurationHelperTest extends TestCase
 {
 
-	/**
-	 * @return void
-	 */
 	public function testGetMigrationConfig(): void
 	{
 		/** @var InputInterface|MockInterface $input */
@@ -32,7 +29,7 @@ final class ConfigurationHelperTest extends TestCase
 			->withArgs([$outputWriter])
 			->getMock();
 
-		$helper = new ConfigurationHelper(NULL, $configuration);
+		$helper = new ConfigurationHelper(null, $configuration);
 		self::assertSame($configuration, $helper->getMigrationConfig($input, $outputWriter));
 	}
 

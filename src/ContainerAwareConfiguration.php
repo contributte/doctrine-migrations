@@ -12,10 +12,6 @@ class ContainerAwareConfiguration extends Configuration
 	/** @var Container */
 	private $container;
 
-	/**
-	 * @param Container $container
-	 * @return void
-	 */
 	public function setContainer(Container $container): void
 	{
 		$this->container = $container;

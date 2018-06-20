@@ -14,12 +14,9 @@ use Tests\Nettrine\Migrations\TestCase;
 final class MigrationsExtensionTest extends TestCase
 {
 
-	/**
-	 * @return void
-	 */
 	public function testConsole(): void
 	{
-		$loader = new ContainerLoader(TEMP_PATH, TRUE);
+		$loader = new ContainerLoader(TEMP_PATH, true);
 		$class = $loader->load(function (Compiler $compiler): void {
 			// Required services and params
 			$compiler->loadConfig(FIXTURES_PATH . '/config/services.neon');
@@ -40,12 +37,9 @@ final class MigrationsExtensionTest extends TestCase
 		self::assertCount(5, iterator_to_array($container->getByType(Application::class)->getHelperSet()));
 	}
 
-	/**
-	 * @return void
-	 */
 	public function testWithoutConsole(): void
 	{
-		$loader = new ContainerLoader(TEMP_PATH, TRUE);
+		$loader = new ContainerLoader(TEMP_PATH, true);
 		$class = $loader->load(function (Compiler $compiler): void {
 			// Required services and params
 			$compiler->loadConfig(FIXTURES_PATH . '/config/services_without_console.neon');

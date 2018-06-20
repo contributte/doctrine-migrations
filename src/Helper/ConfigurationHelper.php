@@ -14,24 +14,15 @@ class ConfigurationHelper extends BaseConfigurationHelper
 	/** @var Configuration|NULL */
 	private $configuration;
 
-	/**
-	 * @param Connection|NULL $connection
-	 * @param Configuration|NULL $configuration
-	 */
-	public function __construct(?Connection $connection = NULL, ?Configuration $configuration = NULL)
+	public function __construct(?Connection $connection = null, ?Configuration $configuration = null)
 	{
 		parent::__construct($connection, $configuration);
 		$this->configuration = $configuration;
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputWriter $outputWriter
-	 * @return Configuration|NULL
-	 */
 	public function getMigrationConfig(InputInterface $input, OutputWriter $outputWriter): ?Configuration
 	{
-		if ($this->configuration !== NULL) {
+		if ($this->configuration !== null) {
 			$this->configuration->setOutputWriter($outputWriter);
 		}
 		return $this->configuration;

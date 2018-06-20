@@ -26,12 +26,9 @@ final class MigrationsExtension extends CompilerExtension
 		'column' => 'version',
 		'directory' => '%appDir%/../migrations',
 		'namespace' => 'Migrations',
-		'versionsOrganization' => NULL,
+		'versionsOrganization' => null,
 	];
 
-	/**
-	 * @return void
-	 */
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
@@ -56,46 +53,44 @@ final class MigrationsExtension extends CompilerExtension
 		// Register commands
 		$builder->addDefinition($this->prefix('diffCommand'))
 			->setClass(DiffCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('executeCommand'))
 			->setClass(ExecuteCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('generateCommand'))
 			->setClass(GenerateCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('latestCommand'))
 			->setClass(LatestCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('migrateCommand'))
 			->setClass(MigrateCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('statusCommand'))
 			->setClass(StatusCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('upToDateCommand'))
 			->setClass(UpToDateCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 		$builder->addDefinition($this->prefix('versionCommand'))
 			->setClass(VersionCommand::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 
 		// Register configuration helper
 		$builder->addDefinition($this->prefix('configurationHelper'))
 			->setClass(ConfigurationHelper::class)
-			->setAutowired(FALSE);
+			->setAutowired(false);
 	}
 
 	/**
 	 * Decorate services
-	 *
-	 * @return void
 	 */
 	public function beforeCompile(): void
 	{
 		$builder = $this->getContainerBuilder();
 
 		// Register console helper only if console is provided
-		$application = $builder->getByType(Application::class, FALSE);
+		$application = $builder->getByType(Application::class, false);
 		if ($application) {
 			$applicationDef = $builder->getDefinition($application);
 			$applicationDef->addSetup(
