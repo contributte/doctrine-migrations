@@ -7,7 +7,7 @@
   "homepage": "https://github.com/nettrine/migrations",
   "authors": [
     {
-      "name": "Milan Felix Sulc",
+      "name": "Milan Felix Šulc",
       "homepage": "https://f3l1x.io"
     },
     {
@@ -17,9 +17,9 @@
   ],
   "require": {
     "php": ">=7.1",
-    "doctrine/migrations": "^1.6.2",
-    "nette/di": "^2.4.10",
-    "symfony/console": "^3.3.6 || ^4.0.4"
+    "doctrine/migrations": "^1.8.1",
+    "nette/di": "^2.4.12",
+    "symfony/console": "^4.1.0"
   },
   "require-dev": {
     "ninjify/qa": "^0.8.0",
