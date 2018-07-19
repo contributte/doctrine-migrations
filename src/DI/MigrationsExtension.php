@@ -53,28 +53,36 @@ final class MigrationsExtension extends CompilerExtension
 		// Register commands
 		$builder->addDefinition($this->prefix('diffCommand'))
 			->setClass(DiffCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:diff');
 		$builder->addDefinition($this->prefix('executeCommand'))
 			->setClass(ExecuteCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:execute');
 		$builder->addDefinition($this->prefix('generateCommand'))
 			->setClass(GenerateCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:generate');
 		$builder->addDefinition($this->prefix('latestCommand'))
 			->setClass(LatestCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:latest');
 		$builder->addDefinition($this->prefix('migrateCommand'))
 			->setClass(MigrateCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:migrate');
 		$builder->addDefinition($this->prefix('statusCommand'))
 			->setClass(StatusCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:status');
 		$builder->addDefinition($this->prefix('upToDateCommand'))
 			->setClass(UpToDateCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:up-to-date');
 		$builder->addDefinition($this->prefix('versionCommand'))
 			->setClass(VersionCommand::class)
-			->setAutowired(false);
+			->setAutowired(false)
+			->addTag('console.command', 'migrations:version');
 
 		// Register configuration helper
 		$builder->addDefinition($this->prefix('configurationHelper'))
