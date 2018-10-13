@@ -57,3 +57,31 @@ decorator:
 Type `bin/console` in your terminal and there should be a `migrations` command group.
 
 ![commands](https://raw.githubusercontent.com/nettrine/migrations/master/.docs/assets/commands.png)
+
+## Dependency Injection
+
+It is possible to use either `@inject` annotation or `inject*()` methods on migration classes:
+
+```php
+/**
+ * @var MyService
+ * @inject
+ */
+public $myService;
+```
+
+```php
+/**
+ * @var MyService
+ */
+private $myService;
+
+public function injectMyService(MyService $myService): void
+{
+    $this->myService = $myService;
+}
+```
+
+Read more at official [Nette documentation](https://doc.nette.org/cs/2.4/di-usage).
+
+
