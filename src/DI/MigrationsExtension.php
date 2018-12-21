@@ -38,7 +38,7 @@ final class MigrationsExtension extends CompilerExtension
 		// Register configuration
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
-			->setClass(ContainerAwareConfiguration::class)
+			->setFactory(ContainerAwareConfiguration::class)
 			->addSetup('setContainer', [new Statement('@container')])
 			->addSetup('setMigrationsTableName', [$config['table']])
 			->addSetup('setMigrationsColumnName', [$config['column']])
@@ -52,41 +52,41 @@ final class MigrationsExtension extends CompilerExtension
 
 		// Register commands
 		$builder->addDefinition($this->prefix('diffCommand'))
-			->setClass(DiffCommand::class)
+			->setFactory(DiffCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:diff');
 		$builder->addDefinition($this->prefix('executeCommand'))
-			->setClass(ExecuteCommand::class)
+			->setFactory(ExecuteCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:execute');
 		$builder->addDefinition($this->prefix('generateCommand'))
-			->setClass(GenerateCommand::class)
+			->setFactory(GenerateCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:generate');
 		$builder->addDefinition($this->prefix('latestCommand'))
-			->setClass(LatestCommand::class)
+			->setFactory(LatestCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:latest');
 		$builder->addDefinition($this->prefix('migrateCommand'))
-			->setClass(MigrateCommand::class)
+			->setFactory(MigrateCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:migrate');
 		$builder->addDefinition($this->prefix('statusCommand'))
-			->setClass(StatusCommand::class)
+			->setFactory(StatusCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:status');
 		$builder->addDefinition($this->prefix('upToDateCommand'))
-			->setClass(UpToDateCommand::class)
+			->setFactory(UpToDateCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:up-to-date');
 		$builder->addDefinition($this->prefix('versionCommand'))
-			->setClass(VersionCommand::class)
+			->setFactory(VersionCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:version');
 
 		// Register configuration helper
 		$builder->addDefinition($this->prefix('configurationHelper'))
-			->setClass(ConfigurationHelper::class)
+			->setFactory(ConfigurationHelper::class)
 			->setAutowired(false);
 	}
 
@@ -99,7 +99,7 @@ final class MigrationsExtension extends CompilerExtension
 
 		// Register console helper only if console is provided
 		$application = $builder->getByType(Application::class, false);
-		if ($application) {
+		if ($application !== null) {
 			$applicationDef = $builder->getDefinition($application);
 			$applicationDef->addSetup(
 				new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])

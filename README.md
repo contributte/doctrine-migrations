@@ -7,10 +7,10 @@
 [![Build Status](https://img.shields.io/travis/nettrine/migrations.svg?style=flat-square)](https://travis-ci.org/nettrine/migrations)
 [![Code coverage](https://img.shields.io/coveralls/nettrine/migrations.svg?style=flat-square)](https://coveralls.io/r/nettrine/migrations)
 [![Licence](https://img.shields.io/packagist/l/nettrine/migrations.svg?style=flat-square)](https://packagist.org/packages/nettrine/migrations)
-
 [![Downloads this Month](https://img.shields.io/packagist/dm/nettrine/migrations.svg?style=flat-square)](https://packagist.org/packages/nettrine/migrations)
 [![Downloads total](https://img.shields.io/packagist/dt/nettrine/migrations.svg?style=flat-square)](https://packagist.org/packages/nettrine/migrations)
 [![Latest stable](https://img.shields.io/packagist/v/nettrine/migrations.svg?style=flat-square)](https://packagist.org/packages/nettrine/migrations)
+[![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square)](https://github.com/phpstan/phpstan)
 
 ## Discussion / Help
 
@@ -57,7 +57,7 @@ composer require nettrine/migrations
         <a href="https://github.com/benijo">Josef Benjač</a>
       </td>
     </tr>
-  <tbody>
+  </tbody>
 </table>
 
 -----

@@ -9,7 +9,7 @@ use Nette\DI\Container;
 class ContainerAwareConfiguration extends Configuration
 {
 
-	/** @var Container */
+	/** @var Container|null */
 	private $container;
 
 	public function setContainer(Container $container): void
@@ -26,7 +26,7 @@ class ContainerAwareConfiguration extends Configuration
 	public function getMigrationsToExecute($direction, $to): array
 	{
 		$versions = parent::getMigrationsToExecute($direction, $to);
-		if ($this->container) {
+		if ($this->container !== null) {
 			foreach ($versions as $version) {
 				$this->container->callInjects($version->getMigration());
 			}
@@ -43,7 +43,7 @@ class ContainerAwareConfiguration extends Configuration
 	{
 		$version = parent::getVersion($version);
 
-		if ($this->container)
+		if ($this->container !== null)
 			$this->container->callInjects($version->getMigration());
 
 		return $version;
