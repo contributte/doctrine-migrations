@@ -38,6 +38,7 @@ migrations:
     directory: %appDir%/../migrations
     namespace: Migrations
     versionsOrganization: null # null, year, year_and_month
+    customTemplate: null # path to custom template
 ```
 
 ### Kdyby/Doctrine

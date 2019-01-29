@@ -27,6 +27,7 @@ final class MigrationsExtension extends CompilerExtension
 		'directory' => '%appDir%/../migrations',
 		'namespace' => 'Migrations',
 		'versionsOrganization' => null,
+		'customTemplate' => null,
 	];
 
 	public function loadConfiguration(): void
@@ -40,6 +41,7 @@ final class MigrationsExtension extends CompilerExtension
 		$configuration
 			->setFactory(ContainerAwareConfiguration::class)
 			->addSetup('setContainer', [new Statement('@container')])
+			->addSetup('setCustomTemplate', [$config['customTemplate']])
 			->addSetup('setMigrationsTableName', [$config['table']])
 			->addSetup('setMigrationsColumnName', [$config['column']])
 			->addSetup('setMigrationsDirectory', [$config['directory']])
