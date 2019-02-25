@@ -2,7 +2,7 @@
 
 namespace Tests\Nettrine\Migrations\DI;
 
-use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
+use Doctrine\Migrations\Tools\Console\Command\AbstractCommand;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;

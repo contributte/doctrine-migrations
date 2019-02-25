@@ -2,19 +2,19 @@
 
 namespace Nettrine\Migrations\DI;
 
-use Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\LatestCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\UpToDateCommand;
-use Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
+use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
+use Doctrine\Migrations\Tools\Console\Command\GenerateCommand;
+use Doctrine\Migrations\Tools\Console\Command\LatestCommand;
+use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
+use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
+use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
+use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Helpers;
 use Nette\DI\Statement;
 use Nettrine\Migrations\ContainerAwareConfiguration;
-use Nettrine\Migrations\Helper\ConfigurationHelper;
 use Symfony\Component\Console\Application;
 
 final class MigrationsExtension extends CompilerExtension
@@ -47,10 +47,11 @@ final class MigrationsExtension extends CompilerExtension
 			->addSetup('setMigrationsDirectory', [$config['directory']])
 			->addSetup('setMigrationsNamespace', [$config['namespace']]);
 
-		if ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR)
+		if ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYear');
-		elseif ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH)
+		} elseif ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
+		}
 
 		// Register commands
 		$builder->addDefinition($this->prefix('diffCommand'))
@@ -101,6 +102,7 @@ final class MigrationsExtension extends CompilerExtension
 
 		// Register console helper only if console is provided
 		$application = $builder->getByType(Application::class, false);
+
 		if ($application !== null) {
 			$applicationDef = $builder->getDefinition($application);
 			$applicationDef->addSetup(
