@@ -34,7 +34,7 @@ final class MigrationsExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->getConfigSchema()->merge($this->getConfig(), $this->defaults);
+		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 		$config = Helpers::expand($config, $builder->parameters);
 
 		// Register configuration
