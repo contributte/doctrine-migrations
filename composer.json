@@ -16,9 +16,9 @@
     }
   ],
   "require": {
-    "php": ">=7.1",
+    "php": "^7.1",
     "doctrine/migrations": "^2.0.0",
-    "nette/di": "~2.4.15",
+    "nette/di": "^3.0-RC2",
     "symfony/console": "^4.2.3"
   },
   "require-dev": {

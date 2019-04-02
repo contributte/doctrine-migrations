@@ -12,8 +12,9 @@ use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Helpers;
-use Nette\DI\Statement;
+use Nette\DI\Definitions\Statement;
 use Nettrine\Migrations\ContainerAwareConfiguration;
 use Symfony\Component\Console\Application;
 
@@ -33,7 +34,7 @@ final class MigrationsExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
+		$config = $this->getConfigSchema()->merge($this->getConfig(), $this->defaults);
 		$config = Helpers::expand($config, $builder->parameters);
 
 		// Register configuration
@@ -104,6 +105,7 @@ final class MigrationsExtension extends CompilerExtension
 		$application = $builder->getByType(Application::class, false);
 
 		if ($application !== null) {
+			/** @var ServiceDefinition $applicationDef */
 			$applicationDef = $builder->getDefinition($application);
 			$applicationDef->addSetup(
 				new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])
