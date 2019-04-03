@@ -15,6 +15,12 @@ extensions:
     migrations: Nettrine\Migrations\DI\MigrationsExtension
 ```
 
+If you are using [Nettrine/ORM](https://github.com/nettrine/orm) don't forget to register also Nettrine's OrmConsoleExtension
+```yaml
+extensions:
+    orm.console: Nettrine\ORM\DI\OrmConsoleExtension
+```
+
 This extension is highly depending on `Symfony\Console`, it does not make sence to use it without `Console`. Take
 a look at simple [Contributte/Console](https://github.com/contributte/console) integration.
 
