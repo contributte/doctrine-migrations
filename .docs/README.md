@@ -8,21 +8,15 @@
 
 ## Usage
 
-At first you should register `MigrationsExtension` at your config file.
+At first you should register `MigrationsExtension` in your config file.
 
 ```yaml
 extensions:
     migrations: Nettrine\Migrations\DI\MigrationsExtension
 ```
 
-If you are using [Nettrine/ORM](https://github.com/nettrine/orm) don't forget to register also Nettrine's OrmConsoleExtension
-```yaml
-extensions:
-    orm.console: Nettrine\ORM\DI\OrmConsoleExtension
-```
-
-This extension is highly depending on `Symfony\Console`, it does not make sence to use it without `Console`. Take
-a look at simple [Contributte/Console](https://github.com/contributte/console) integration.
+This extension is highly dependent on `Symfony\Console`, it does not make sense to use it without `Console`. Take
+a look at simple [Contributte/Console](https://github.com/contributte/console) integration and don't forget to also register `Nettrine\ORM\DI\OrmConsoleExtension`, otherwise migrations and fixtures won't work.
 
 ```
 composer require contributte/console
@@ -31,11 +25,12 @@ composer require contributte/console
 ```yaml
 extensions:
     console: Contributte\Console\DI\ConsoleExtension
+    orm.console: Nettrine\ORM\DI\OrmConsoleExtension
 ```
 
 ## Configuration
 
-Default configuration looks like this:
+Default configuration should look like this:
 
 ```yaml
 migrations:
