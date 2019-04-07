@@ -13,8 +13,8 @@ use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\ServiceDefinition;
-use Nette\DI\Helpers;
 use Nette\DI\Definitions\Statement;
+use Nette\DI\Helpers;
 use Nettrine\Migrations\ContainerAwareConfiguration;
 use Symfony\Component\Console\Application;
 
@@ -34,7 +34,7 @@ final class MigrationsExtension extends CompilerExtension
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
+		$config = \Nette\Schema\Helpers::merge($this->getConfig(), $this->defaults);
 		$config = Helpers::expand($config, $builder->parameters);
 
 		// Register configuration
