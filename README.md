@@ -1,8 +1,6 @@
-# Migrations
+# Nettrine Migrations
 
-:running: [Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) to Nette Framework.
-
------
+[Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) for Nette Framework.
 
 [![Build Status](https://img.shields.io/travis/nettrine/migrations.svg?style=flat-square)](https://travis-ci.org/nettrine/migrations)
 [![Code coverage](https://img.shields.io/coveralls/nettrine/migrations.svg?style=flat-square)](https://coveralls.io/r/nettrine/migrations)
@@ -16,26 +14,18 @@
 
 [![Join the chat](https://img.shields.io/gitter/room/nettrine/nettrine.svg?style=flat-square)](https://gitter.im/nettrine/nettrine)
 
-## Install
+## Documentation
 
-```sh
-composer require nettrine/migrations
-```
+- [Setup](.docs/README.md#setup)
+- [Configuration](.docs/README.md#configuration)
+- [Usage - available commands](.docs/README.md#commands)
 
 ## Versions
 
-| State       | Version | Branch   | PHP      |
-|-------------|---------|----------|----------|
-| development | `^0.6`  | `master` | `>= 7.1` |
-| stable      | `^0.5`  | `master` | `>= 7.1` |
-| stable      |  `0.2`  | `master` | `>= 5.6` |
-
-## Overview
-
-- [Usage - how to register](https://github.com/nettrine/migrations/blob/master/.docs/README.md#usage)
-- [Extension - how to configure](https://github.com/nettrine/migrations/blob/master/.docs/README.md#configuration)
-	- [How to use with Kdyby\Console](https://github.com/nettrine/migrations/blob/master/.docs/README.md#kdybydoctrine)
-- [Usage - list of available commands](https://github.com/nettrine/migrations/blob/master/.docs/README.md#commands)
+| State       | Version | Branch   | Nette  | PHP    |
+|-------------|---------|----------|--------|--------|
+| development | `^0.7`  | `master` | `3.0+` | `^7.2` |
+| stable      | `^0.6`  | `master` | `2.4`  | `^7.1` |
 
 ## Maintainers
 
@@ -59,7 +49,5 @@ composer require nettrine/migrations
     </tr>
   </tbody>
 </table>
-
------
 
 Thank you for testing, reporting and contributing.
