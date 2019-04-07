@@ -1,18 +1,29 @@
-# Migrations
+# Nettrine Migrations
+
+[Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) for Nette Framework.
 
 ## Content
 
-- [Usage - how to register](#usage)
-- [Extension - how to configure](#configuration)
-- [Usage - list of available commands](#commands)
+- [Setup](#setup)
+- [Configuration](#configuration)
+- [Usage - available commands](#commands)
 
-## Usage
+## Setup
 
-At first you should register `MigrationsExtension` in your config file.
+Install package
+
+```bash
+composer require nettrine/migrations
+```
+
+Configure extension
 
 ```yaml
 extensions:
     migrations: Nettrine\Migrations\DI\MigrationsExtension
+    
+migrations:
+    directory: %appDir%/../migrations
 ```
 
 This extension is highly dependent on `Symfony\Console`, it does not make sense to use it without `Console`. Take

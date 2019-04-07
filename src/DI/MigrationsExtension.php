@@ -12,44 +12,55 @@ use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Helpers;
-use Nette\DI\Statement;
+use Nette\DI\Definitions\ServiceDefinition;
+use Nette\DI\Definitions\Statement;
+use Nette\Schema\Expect;
+use Nette\Schema\Schema;
 use Nettrine\Migrations\ContainerAwareConfiguration;
+use stdClass;
 use Symfony\Component\Console\Application;
 
+/**
+ * @property-read stdClass $config
+ */
 final class MigrationsExtension extends CompilerExtension
 {
 
-	/** @var mixed[] */
-	private $defaults = [
-		'table' => 'doctrine_migrations',
-		'column' => 'version',
-		'directory' => '%appDir%/../migrations',
-		'namespace' => 'Migrations',
-		'versionsOrganization' => null,
-		'customTemplate' => null,
-	];
+	public function getConfigSchema(): Schema
+	{
+		return Expect::structure([
+			'table' => Expect::string('doctrine_migrations'),
+			'column' => Expect::string('version'),
+			'directory' => Expect::string()->required(),
+			'namespace' => Expect::string('Migrations'),
+			'versionsOrganization' => Expect::anyOf(
+				null,
+				ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR,
+				ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH
+			),
+			'customTemplate' => Expect::string(),
+		]);
+	}
 
 	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->validateConfig($this->defaults);
-		$config = Helpers::expand($config, $builder->parameters);
+		$config = $this->config;
 
 		// Register configuration
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
 			->setFactory(ContainerAwareConfiguration::class)
 			->addSetup('setContainer', [new Statement('@container')])
-			->addSetup('setCustomTemplate', [$config['customTemplate']])
-			->addSetup('setMigrationsTableName', [$config['table']])
-			->addSetup('setMigrationsColumnName', [$config['column']])
-			->addSetup('setMigrationsDirectory', [$config['directory']])
-			->addSetup('setMigrationsNamespace', [$config['namespace']]);
+			->addSetup('setCustomTemplate', [$config->customTemplate])
+			->addSetup('setMigrationsTableName', [$config->table])
+			->addSetup('setMigrationsColumnName', [$config->column])
+			->addSetup('setMigrationsDirectory', [$config->directory])
+			->addSetup('setMigrationsNamespace', [$config->namespace]);
 
-		if ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR) {
+		if ($config->versionsOrganization === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYear');
-		} elseif ($config['versionsOrganization'] === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH) {
+		} elseif ($config->versionsOrganization === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
 		}
 
@@ -104,6 +115,7 @@ final class MigrationsExtension extends CompilerExtension
 		$application = $builder->getByType(Application::class, false);
 
 		if ($application !== null) {
+			/** @var ServiceDefinition $applicationDef */
 			$applicationDef = $builder->getDefinition($application);
 			$applicationDef->addSetup(
 				new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])

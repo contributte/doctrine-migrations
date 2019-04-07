@@ -1,6 +1,0 @@
-migrations:
-	table: doctrine_migrations
-	column: version
-	directory: %appDir%/../migrations
-	namespace: Migrations
-	versionsOrganization: null
