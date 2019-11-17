@@ -69,6 +69,8 @@ decorator:
 
 Type `bin/console` in your terminal and there should be a `migrations` command group.
 
+`migrations:diff` command requires `EntityManagerHelper`. You should either register it yourself or setup `OrmConsoleExtension` from [nettrine/orm](https://github.com/nettrine/orm)
+
 ![commands](https://raw.githubusercontent.com/nettrine/migrations/master/.docs/assets/commands.png)
 
 ## Dependency Injection
