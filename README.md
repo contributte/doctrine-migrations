@@ -1,6 +1,6 @@
 # Nettrine Migrations
 
-[Doctrine\Migrations](http://docs.doctrine-project.org/projects/doctrine-migrations/en/latest/) for Nette Framework.
+[Doctrine/Migrations](https://www.doctrine-project.org/projects/migrations.html) for Nette Framework.
 
 [![Build Status](https://img.shields.io/travis/nettrine/migrations.svg?style=flat-square)](https://travis-ci.org/nettrine/migrations)
 [![Code coverage](https://img.shields.io/coveralls/nettrine/migrations.svg?style=flat-square)](https://coveralls.io/r/nettrine/migrations)
@@ -17,8 +17,11 @@
 ## Documentation
 
 - [Setup](.docs/README.md#setup)
+- [Relying](.docs/README.md#relying)
 - [Configuration](.docs/README.md#configuration)
-- [Usage - available commands](.docs/README.md#commands)
+- [Usage](.docs/README.md#usage)
+- [3rd party](.docs/README.md#3rd-party)
+- [Examples](.docs/README.md#examples)
 
 ## Versions
 
