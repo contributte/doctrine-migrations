@@ -44,6 +44,13 @@
         <a href="https://github.com/f3l1x">Milan Felix Šulc</a>
       </td>
       <td align="center">
+        <a href="https://github.com/mabar">
+            <img width="150" height="150" src="https://avatars0.githubusercontent.com/u/20974277?s=150&v=4">
+        </a>
+        </br>
+        <a href="https://github.com/mabar">Marek Bartoš</a>
+      </td>
+      <td align="center">
         <a href="https://github.com/benijo">
             <img width="150" height="150" src="https://avatars3.githubusercontent.com/u/6731626?v=3&s=150">
         </a>
