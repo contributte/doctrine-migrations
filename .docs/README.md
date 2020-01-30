@@ -45,7 +45,7 @@ composer require nettrine/dbal
 composer require nettrine/orm
 ```
 
-Without these packages you can't process fixtures, because fixtures needs connection to database and information about entities. Don't forget to configure Doctrine DBAL & ORM properly with [console bridge](https://github.com/nettrine/orm/tree/master/.docs#console-bridge). Some commands need special treatment.
+Without these packages the migrations can't be processed, because they need a database connection and entities information. Don't forget to configure Doctrine DBAL & ORM properly with [console bridge](https://github.com/nettrine/orm/tree/master/.docs#console-bridge). Some commands need special treatment.
 
 
 ### `symfony/console`
@@ -101,12 +101,12 @@ Type `bin/console` in your terminal and there should be a `migrations` command g
 
 ![Console Commands](https://raw.githubusercontent.com/nettrine/migrations/master/.docs/assets/console.png)
 
-You gonna needed `migrations:diff` and `migrations:migrate` mostly.
+You are mostly going to need `migrations:diff` and `migrations:migrate`.
 
 
 ### Migration
 
-This is example of migration class.
+This is an example of a migration class.
 
 You can count on [Nette Dependency Injection](https://doc.nette.org/en/3.0/dependency-injection).
 Injecting into properties or via `inject<>` method is also supported.
