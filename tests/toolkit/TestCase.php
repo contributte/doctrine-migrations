@@ -16,9 +16,11 @@ abstract class TestCase extends PHPUnitTestCase
 			define('TEMP_PATH', __DIR__ . '/../tmp');
 		}
 
-		if (!defined('FIXTURES_PATH')) {
-			define('FIXTURES_PATH', __DIR__ . '/../fixtures');
+		if (defined('FIXTURES_PATH')) {
+			return;
 		}
+
+		define('FIXTURES_PATH', __DIR__ . '/../fixtures');
 	}
 
 	protected function tearDown(): void

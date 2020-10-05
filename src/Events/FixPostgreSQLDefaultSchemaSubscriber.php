@@ -30,9 +30,11 @@ final class FixPostgreSQLDefaultSchemaSubscriber implements EventSubscriber
 		}
 
 		foreach ($schemaManager->getExistingSchemaSearchPaths() as $namespace) {
-			if (!$args->getSchema()->hasNamespace($namespace)) {
-				$args->getSchema()->createNamespace($namespace);
+			if ($args->getSchema()->hasNamespace($namespace)) {
+				return;
 			}
+
+			$args->getSchema()->createNamespace($namespace);
 		}
 	}
 

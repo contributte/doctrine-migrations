@@ -114,13 +114,15 @@ final class MigrationsExtension extends CompilerExtension
 		// Register console helper only if console is provided
 		$application = $builder->getByType(Application::class, false);
 
-		if ($application !== null) {
-			/** @var ServiceDefinition $applicationDef */
-			$applicationDef = $builder->getDefinition($application);
-			$applicationDef->addSetup(
-				new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])
-			);
+		if ($application === null) {
+			return;
 		}
+
+		/** @var ServiceDefinition $applicationDef */
+		$applicationDef = $builder->getDefinition($application);
+		$applicationDef->addSetup(
+			new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])
+		);
 	}
 
 }
