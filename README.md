@@ -1,22 +1,39 @@
-<h1 align=center>Nettrine Migrations</h1>
+![Nettrine Migrations](https://heatbadger.now.sh/github/readme/nettrine/migrations/)
 
 <p align=center>
-    <a href="https://www.doctrine-project.org/projects/migrations.html">Doctrine/Migrations</a> for Nette Framework.
+  <a href="https://github.com/nettrine/migrations/actions">
+    <img src="https://badgen.net/github/checks/nettrine/migrations/master?cache=300">
+  </a>
+  <a href="https://coveralls.io/r/nettrine/migrations">
+    <img src="https://badgen.net/coveralls/c/github/nettrine/migrations?cache=300">
+  </a>
+  <a href="https://packagist.org/packages/nettrine/migrations">
+    <img src="https://badgen.net/packagist/dm/nettrine/migrations">
+  </a>
+  <a href="https://packagist.org/packages/nettrine/migrations">
+    <img src="https://badgen.net/packagist/v/nettrine/migrations">
+  </a>
 </p>
-
 <p align=center>
-  <a href="https://travis-ci.org/nettrine/migrations"><img src="https://img.shields.io/travis/nettrine/migrations.svg?style=flat-square"></a>
-  <a href="https://coveralls.io/r/nettrine/migrations"><img src="https://img.shields.io/coveralls/nettrine/migrations.svg?style=flat-square"></a>
-  <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://img.shields.io/packagist/l/nettrine/migrations.svg?style=flat-square"></a>
-  <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://img.shields.io/packagist/dm/nettrine/migrations.svg?style=flat-square"></a>
-  <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://img.shields.io/packagist/dt/nettrine/migrations.svg?style=flat-square"></a>
-  <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://img.shields.io/packagist/v/nettrine/migrations.svg?style=flat-square"></a>
-  <a href="https://github.com/phpstan/phpstan"><img src="https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat-square"></a>
-  <a href="http://bit.ly/ctteg"><img src="https://img.shields.io/gitter/room/contributte/contributte.svg?style=flat-square"></a>
+  <a href="https://packagist.org/packages/nettrine/migrations">
+    <img src="https://badgen.net/packagist/php/nettrine/migrations">
+  </a>
+  <a href="https://github.com/nettrine/migrations">
+    <img src="https://badgen.net/github/license/nettrine/migrations">
+  </a>
+  <a href="http://bit.ly/apittegitter">
+    <img src="https://badgen.net/badge/chat/apitte/cyan">
+  </a>
+  <a href="https://bit.ly/cttfo">
+    <img src="https://badgen.net/badge/support/forum/yellow">
+  </a>
+  <a href="https://contributte.org/partners.html">
+    <img src="https://badgen.net/badge/become/a%20patron/F96854">
+  </a>
 <p>
 
 <p align=center>
-    Website 🚀 <a href="https://contributte.org">contributte.org</a> | Contact 👨🏻‍💻 <a href="https://f3l1x.io">f3l1x.io</a> | Twitter 🐦 <a href="https://twitter.com/contributte">@contributte</a>
+Website 🚀 <a href="https://contributte.org">contributte.org</a> | Contact 👨🏻💻 <a href="https://f3l1x.io">f3l1x.io</a> | Twitter 🐦 <a href="https://twitter.com/contributte">@contributte</a>
 </p>
 
 ## Usage
@@ -33,11 +50,11 @@ For details on how to use this package, check out our [documentation](.docs).
 
 ## Versions
 
-| State       | Version | Branch   | Nette  | PHP    |
-|-------------|---------|----------|--------|--------|
-| dev         | `^0.7`  | `master` | `3.0+` | `^7.2` |
-| stable      | `^0.6`  | `master` | `3.0+` | `^7.2` |
-| stable      | `^0.5`  | `master` | `2.4`  | `^7.1` |
+| State       | Version | Branch   | Nette  | PHP     |
+|-------------|---------|----------|--------|---------|
+| dev         | `^0.7`  | `master` | `3.0+` | `>=7.2` |
+| stable      | `^0.6`  | `master` | `3.0+` | `^7.2`  |
+| stable      | `^0.5`  | `master` | `2.4`  | `^7.1`  |
 
 ## Development
 
@@ -46,16 +63,13 @@ See [how to contribute](https://contributte.org/contributing.html) to this packa
 This package is currently maintaining by these authors.
 
 <a href="https://github.com/f3l1x">
-    <img width="80" height="80" src="https://avatars2.githubusercontent.com/u/538058?v=3&s=80">
-</a>
-<a href="https://github.com/mabar">
-    <img width="80" height="80" src="https://avatars2.githubusercontent.com/u/20974277?v=3&s=80">
-</a>
-<a href="https://github.com/josefbenjac">
-    <img width="80" height="80" src="https://avatars2.githubusercontent.com/u/6731626?v=3&s=80">
+  <img width="80" height="80" src="https://avatars2.githubusercontent.com/u/538058?v=3&s=80">
 </a>
 
------
+## Sponsoring
 
-Consider to [support](https://contributte.org/partners.html) **contributte** development team.
-Also thank you for using this package.
+<a href="https://github.com/tlapnet">
+  <img width="80" height="80" src="https://avatars1.githubusercontent.com/u/22914186?s=80&v=4">
+</a>
+
+The development is sponsored by [Tlapnet](https://www.tlapnet.cz)
