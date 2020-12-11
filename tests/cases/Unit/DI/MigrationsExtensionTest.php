@@ -9,15 +9,18 @@ use Nette\DI\ContainerLoader;
 use Nettrine\Migrations\ContainerAwareConfiguration;
 use Nettrine\Migrations\DI\MigrationsExtension;
 use Symfony\Component\Console\Application;
+use Tester\Assert;
+use Tester\TestCase;
 use Tests\Toolkit\NeonLoader;
-use Tests\Toolkit\TestCase;
+
+require_once __DIR__ . '/../../../bootstrap.php';
 
 final class MigrationsExtensionTest extends TestCase
 {
 
 	public function testDefault(): void
 	{
-		$loader = new ContainerLoader(TEMP_PATH, true);
+		$loader = new ContainerLoader(TMP_DIR, true);
 		$class = $loader->load(function (Compiler $compiler): void {
 			$compiler->addExtension('migrations', new MigrationsExtension());
 			$compiler->addConfig(NeonLoader::load('
@@ -38,16 +41,16 @@ final class MigrationsExtensionTest extends TestCase
 
 		/** @var ContainerAwareConfiguration $awareConfiguration */
 		$awareConfiguration = $container->getByType(ContainerAwareConfiguration::class);
-		$this->assertEquals('Migrations', $awareConfiguration->getMigrationsNamespace());
-		$this->assertEquals('/root/migrations', $awareConfiguration->getMigrationsDirectory());
-		$this->assertCount(8, $container->findByType(AbstractCommand::class));
+		Assert::equal('Migrations', $awareConfiguration->getMigrationsNamespace());
+		Assert::equal('/root/migrations', $awareConfiguration->getMigrationsDirectory());
+		Assert::count(8, $container->findByType(AbstractCommand::class));
 		// 4 default helpers + configurationHelper
-		$this->assertCount(5, iterator_to_array($container->getByType(Application::class)->getHelperSet()));
+		Assert::count(5, iterator_to_array($container->getByType(Application::class)->getHelperSet()));
 	}
 
 	public function testCustom(): void
 	{
-		$loader = new ContainerLoader(TEMP_PATH, true);
+		$loader = new ContainerLoader(TMP_DIR, true);
 		$class = $loader->load(function (Compiler $compiler): void {
 			$compiler->addExtension('migrations', new MigrationsExtension());
 			$compiler->addConfig(NeonLoader::load('
@@ -66,13 +69,13 @@ final class MigrationsExtensionTest extends TestCase
 
 		/** @var ContainerAwareConfiguration $awareConfiguration */
 		$awareConfiguration = $container->getByType(ContainerAwareConfiguration::class);
-		$this->assertEquals('Fake', $awareConfiguration->getMigrationsNamespace());
-		$this->assertEquals('/fake/migrations', $awareConfiguration->getMigrationsDirectory());
+		Assert::equal('Fake', $awareConfiguration->getMigrationsNamespace());
+		Assert::equal('/fake/migrations', $awareConfiguration->getMigrationsDirectory());
 	}
 
 	public function testWithoutConsole(): void
 	{
-		$loader = new ContainerLoader(TEMP_PATH, true);
+		$loader = new ContainerLoader(TMP_DIR, true);
 		$class = $loader->load(function (Compiler $compiler): void {
 			$compiler->addExtension('migrations', new MigrationsExtension());
 			$compiler->addConfig(NeonLoader::load('
@@ -90,9 +93,11 @@ final class MigrationsExtensionTest extends TestCase
 
 		/** @var ContainerAwareConfiguration $awareConfiguration */
 		$awareConfiguration = $container->getByType(ContainerAwareConfiguration::class);
-		$this->assertEquals('Migrations', $awareConfiguration->getMigrationsNamespace());
-		$this->assertEquals('/root/migrations', $awareConfiguration->getMigrationsDirectory());
-		$this->assertCount(8, $container->findByType(AbstractCommand::class));
+		Assert::equal('Migrations', $awareConfiguration->getMigrationsNamespace());
+		Assert::equal('/root/migrations', $awareConfiguration->getMigrationsDirectory());
+		Assert::count(8, $container->findByType(AbstractCommand::class));
 	}
 
 }
+
+(new MigrationsExtensionTest())->run();
