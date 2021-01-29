@@ -3,7 +3,6 @@
 namespace Nettrine\Migrations\DI;
 
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
-use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
 use Doctrine\Migrations\Tools\Console\Command\GenerateCommand;
 use Doctrine\Migrations\Tools\Console\Command\LatestCommand;
 use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
@@ -16,6 +15,7 @@ use Nette\DI\Definitions\ServiceDefinition;
 use Nette\DI\Definitions\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
+use Nettrine\Migrations\Command\FixedExecuteCommand;
 use Nettrine\Migrations\ContainerAwareConfiguration;
 use stdClass;
 use Symfony\Component\Console\Application;
@@ -70,7 +70,7 @@ final class MigrationsExtension extends CompilerExtension
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:diff');
 		$builder->addDefinition($this->prefix('executeCommand'))
-			->setFactory(ExecuteCommand::class)
+			->setFactory(FixedExecuteCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:execute');
 		$builder->addDefinition($this->prefix('generateCommand'))
