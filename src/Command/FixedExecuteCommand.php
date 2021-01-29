@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Nettrine\Migrations\Command;
 
@@ -10,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixedExecuteCommand extends ExecuteCommand
 {
+
 	public function getName(): string
 	{
 		return self::$defaultName;
@@ -17,8 +16,11 @@ class FixedExecuteCommand extends ExecuteCommand
 
 	public function execute(InputInterface $input, OutputInterface $output): ?int
 	{
-		$this->configuration->getVersion($input->getArgument('version'));
+		$version = $input->getArgument('version');
+		assert(is_string($version));
+		$this->configuration->getVersion($version);
 
 		return parent::execute($input, $output);
 	}
+
 }
