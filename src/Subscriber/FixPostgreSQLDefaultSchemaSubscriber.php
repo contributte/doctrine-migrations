@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Nettrine\Migrations\Events;
+namespace Nettrine\Migrations\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Schema\PostgreSqlSchemaManager;
