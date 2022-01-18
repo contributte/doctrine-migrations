@@ -3,7 +3,7 @@
 namespace Nettrine\Migrations\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\DBAL\Schema\PostgreSqlSchemaManager;
+use Doctrine\DBAL\Schema\PostgreSQLSchemaManager;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\ToolEvents;
 
@@ -23,9 +23,9 @@ final class FixPostgreSQLDefaultSchemaSubscriber implements EventSubscriber
 		$schemaManager = $args
 			->getEntityManager()
 			->getConnection()
-			->getSchemaManager();
+			->createSchemaManager();
 
-		if (!$schemaManager instanceof PostgreSqlSchemaManager) {
+		if (!$schemaManager instanceof PostgreSQLSchemaManager) {
 			return;
 		}
 

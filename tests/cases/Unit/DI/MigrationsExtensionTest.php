@@ -2,11 +2,12 @@
 
 namespace Tests\Cases\Unit\DI;
 
-use Doctrine\Migrations\Tools\Console\Command\AbstractCommand;
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\DependencyFactory;
+use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
 use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
-use Nettrine\Migrations\ContainerAwareConfiguration;
 use Nettrine\Migrations\DI\MigrationsExtension;
 use Symfony\Component\Console\Application;
 use Tester\Assert;
@@ -39,13 +40,12 @@ final class MigrationsExtensionTest extends TestCase
 		/** @var Container $container */
 		$container = new $class();
 
-		/** @var ContainerAwareConfiguration $awareConfiguration */
-		$awareConfiguration = $container->getByType(ContainerAwareConfiguration::class);
-		Assert::equal('Migrations', $awareConfiguration->getMigrationsNamespace());
-		Assert::equal('/root/migrations', $awareConfiguration->getMigrationsDirectory());
-		Assert::count(8, $container->findByType(AbstractCommand::class));
-		// 4 default helpers + configurationHelper
-		Assert::count(5, iterator_to_array($container->getByType(Application::class)->getHelperSet()));
+		/** @var Configuration $configuration */
+		$configuration = $container->getByType(Configuration::class);
+		Assert::equal(['Migrations' => '/root/migrations'], $configuration->getMigrationDirectories());
+		Assert::count(8, $container->findByType(DoctrineCommand::class));
+		// 4 default helpers
+		Assert::count(4, iterator_to_array($container->getByType(Application::class)->getHelperSet()));
 	}
 
 	public function testCustom(): void
@@ -67,10 +67,9 @@ final class MigrationsExtensionTest extends TestCase
 		/** @var Container $container */
 		$container = new $class();
 
-		/** @var ContainerAwareConfiguration $awareConfiguration */
-		$awareConfiguration = $container->getByType(ContainerAwareConfiguration::class);
-		Assert::equal('Fake', $awareConfiguration->getMigrationsNamespace());
-		Assert::equal('/fake/migrations', $awareConfiguration->getMigrationsDirectory());
+		/** @var Configuration $configuration */
+		$configuration = $container->getByType(Configuration::class);
+		Assert::equal(['Fake' => '/fake/migrations'], $configuration->getMigrationDirectories());
 	}
 
 	public function testWithoutConsole(): void
@@ -91,11 +90,33 @@ final class MigrationsExtensionTest extends TestCase
 		/** @var Container $container */
 		$container = new $class();
 
-		/** @var ContainerAwareConfiguration $awareConfiguration */
-		$awareConfiguration = $container->getByType(ContainerAwareConfiguration::class);
-		Assert::equal('Migrations', $awareConfiguration->getMigrationsNamespace());
-		Assert::equal('/root/migrations', $awareConfiguration->getMigrationsDirectory());
-		Assert::count(8, $container->findByType(AbstractCommand::class));
+		/** @var Configuration $configuration */
+		$configuration = $container->getByType(Configuration::class);
+		Assert::equal(['Migrations' => '/root/migrations'], $configuration->getMigrationDirectories());
+		Assert::count(8, $container->findByType(DoctrineCommand::class));
+	}
+
+	public function testDependencyFactory(): void
+	{
+		$loader = new ContainerLoader(TMP_DIR, true);
+		$class = $loader->load(function (Compiler $compiler): void {
+			$compiler->addExtension('migrations', new MigrationsExtension());
+			$compiler->addConfig(NeonLoader::load('
+			parameters:
+				appDir: /root
+			migrations:
+				directory: %appDir%/migrations
+			services:
+				- Doctrine\DBAL\Driver\Mysqli\Driver
+				- Doctrine\DBAL\Connection([])
+			'));
+			$compiler->addDependencies([__FILE__]);
+		}, __METHOD__);
+
+		/** @var Container $container */
+		$container = new $class();
+
+		Assert::type(DependencyFactory::class, $container->getByType(DependencyFactory::class));
 	}
 
 }

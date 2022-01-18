@@ -2,6 +2,8 @@
 
 namespace Nettrine\Migrations\DI;
 
+use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
 use Doctrine\Migrations\Tools\Console\Command\ExecuteCommand;
 use Doctrine\Migrations\Tools\Console\Command\GenerateCommand;
@@ -10,15 +12,10 @@ use Doctrine\Migrations\Tools\Console\Command\MigrateCommand;
 use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
 use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
-use Doctrine\Migrations\Tools\Console\Helper\ConfigurationHelper;
 use Nette\DI\CompilerExtension;
-use Nette\DI\Definitions\ServiceDefinition;
-use Nette\DI\Definitions\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
-use Nettrine\Migrations\ContainerAwareConfiguration;
 use stdClass;
-use Symfony\Component\Console\Application;
 
 /**
  * @property-read stdClass $config
@@ -35,8 +32,8 @@ final class MigrationsExtension extends CompilerExtension
 			'namespace' => Expect::string('Migrations'),
 			'versionsOrganization' => Expect::anyOf(
 				null,
-				ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR,
-				ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH
+				Configuration::VERSIONS_ORGANIZATION_BY_YEAR,
+				Configuration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH
 			),
 			'customTemplate' => Expect::string(),
 		]);
@@ -48,21 +45,31 @@ final class MigrationsExtension extends CompilerExtension
 		$config = $this->config;
 
 		// Register configuration
+		$storage = $builder->addDefinition($this->prefix('configuration.tableStorage'));
+		$storage
+			->setFactory(TableMetadataStorageConfiguration::class)
+			->addSetup('setTableName', [$config->table])
+			->addSetup('setVersionColumnName', [$config->column]);
+
 		$configuration = $builder->addDefinition($this->prefix('configuration'));
 		$configuration
-			->setFactory(ContainerAwareConfiguration::class)
-			->addSetup('setContainer', [new Statement('@container')])
+			->setFactory(Configuration::class)
 			->addSetup('setCustomTemplate', [$config->customTemplate])
-			->addSetup('setMigrationsTableName', [$config->table])
-			->addSetup('setMigrationsColumnName', [$config->column])
-			->addSetup('setMigrationsDirectory', [$config->directory])
-			->addSetup('setMigrationsNamespace', [$config->namespace]);
+			->addSetup('setMetadataStorageConfiguration', [$storage])
+			->addSetup('addMigrationsDirectory', [$config->namespace, $config->directory]);
 
-		if ($config->versionsOrganization === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR) {
+		if ($config->versionsOrganization === Configuration::VERSIONS_ORGANIZATION_BY_YEAR) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYear');
-		} elseif ($config->versionsOrganization === ContainerAwareConfiguration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH) {
+		} elseif ($config->versionsOrganization === Configuration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
 		}
+
+		$builder->addDefinition($this->prefix('nettrineDependencyFactory'))
+			->setFactory(DependencyFactory::class)
+			->setAutowired(false);
+
+		$builder->addDefinition($this->prefix('dependencyFactory'))
+			->setFactory($this->prefix('@nettrineDependencyFactory') . '::createDependencyFactory');
 
 		// Register commands
 		$builder->addDefinition($this->prefix('diffCommand'))
@@ -97,30 +104,6 @@ final class MigrationsExtension extends CompilerExtension
 			->setFactory(VersionCommand::class)
 			->setAutowired(false)
 			->addTag('console.command', 'migrations:version');
-
-		// Register configuration helper
-		$builder->addDefinition($this->prefix('configurationHelper'))
-			->setFactory(ConfigurationHelper::class)
-			->setAutowired(false);
-	}
-
-	/**
-	 * Decorate services
-	 */
-	public function beforeCompile(): void
-	{
-		$builder = $this->getContainerBuilder();
-
-		// Register console helper only if console is provided
-		$application = $builder->getByType(Application::class, false);
-
-		if ($application !== null) {
-			/** @var ServiceDefinition $applicationDef */
-			$applicationDef = $builder->getDefinition($application);
-			$applicationDef->addSetup(
-				new Statement('$service->getHelperSet()->set(?)', [$this->prefix('@configurationHelper')])
-			);
-		}
 	}
 
 }
