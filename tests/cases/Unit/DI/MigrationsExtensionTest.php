@@ -44,7 +44,7 @@ final class MigrationsExtensionTest extends TestCase
 		/** @var Configuration $configuration */
 		$configuration = $container->getByType(Configuration::class);
 		Assert::equal(['Migrations' => '/root/migrations'], $configuration->getMigrationDirectories());
-		Assert::count(8, $container->findByType(DoctrineCommand::class));
+		Assert::count(13, $container->findByType(DoctrineCommand::class));
 		// 4 default helpers
 		Assert::count(4, iterator_to_array($container->getByType(Application::class)->getHelperSet()));
 	}
@@ -94,7 +94,7 @@ final class MigrationsExtensionTest extends TestCase
 		/** @var Configuration $configuration */
 		$configuration = $container->getByType(Configuration::class);
 		Assert::equal(['Migrations' => '/root/migrations'], $configuration->getMigrationDirectories());
-		Assert::count(8, $container->findByType(DoctrineCommand::class));
+		Assert::count(13, $container->findByType(DoctrineCommand::class));
 	}
 
 	public function testDependencyFactory(): void
