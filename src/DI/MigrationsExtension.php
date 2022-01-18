@@ -15,6 +15,7 @@ use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Nette\DI\CompilerExtension;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
+use Nettrine\Migrations\Version\DbalMigrationFactory;
 use stdClass;
 
 /**
@@ -63,6 +64,9 @@ final class MigrationsExtension extends CompilerExtension
 		} elseif ($config->versionsOrganization === Configuration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
 		}
+
+		$builder->addDefinition($this->prefix('migrationFactory'))
+			->setFactory(DbalMigrationFactory::class);
 
 		$builder->addDefinition($this->prefix('nettrineDependencyFactory'))
 			->setFactory(DependencyFactory::class)

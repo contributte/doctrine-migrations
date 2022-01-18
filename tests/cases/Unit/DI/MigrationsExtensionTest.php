@@ -9,6 +9,7 @@ use Nette\DI\Compiler;
 use Nette\DI\Container;
 use Nette\DI\ContainerLoader;
 use Nettrine\Migrations\DI\MigrationsExtension;
+use Nettrine\Migrations\Version\DbalMigrationFactory;
 use Symfony\Component\Console\Application;
 use Tester\Assert;
 use Tester\TestCase;
@@ -116,7 +117,10 @@ final class MigrationsExtensionTest extends TestCase
 		/** @var Container $container */
 		$container = new $class();
 
-		Assert::type(DependencyFactory::class, $container->getByType(DependencyFactory::class));
+		/** @var DependencyFactory $dependencyFactory */
+		$dependencyFactory = $container->getByType(DependencyFactory::class);
+		Assert::type(DependencyFactory::class, $dependencyFactory);
+		Assert::type(DbalMigrationFactory::class, $dependencyFactory->getMigrationFactory());
 	}
 
 }
