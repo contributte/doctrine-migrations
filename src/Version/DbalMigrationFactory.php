@@ -39,6 +39,8 @@ class DbalMigrationFactory implements MigrationFactory
 			$this->logger
 		);
 
+		assert($migration instanceof AbstractMigration);
+
 		$this->container->callInjects($migration);
 
 		return $migration;

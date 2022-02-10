@@ -3,15 +3,17 @@
 	<!-- Contributte Coding Standard -->
 	<rule ref="./vendor/ninjify/coding-standard/contributte.xml"/>
 
+	<!-- Specific rules -->
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
-			<property name="rootNamespaces" type="array" value="
-				src=>Nettrine\Migrations,
-				tests/cases=>Tests\Cases,
-				tests/fixtures=>Tests\Fixtures,
-				tests/toolkit=>Tests\Toolkit
-			"/>
+			<property name="rootNamespaces" type="array">
+				<element key="src" value="Nettrine\Migrations"/>
+				<element key="tests" value="Tests"/>
+			</property>
 		</properties>
 	</rule>
 
+	<!--Exclude folders -->
+	<exclude-pattern>/tests/tmp</exclude-pattern>
 </ruleset>
+
