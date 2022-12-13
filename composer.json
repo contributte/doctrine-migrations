@@ -4,7 +4,7 @@
   "keywords": ["nette", "doctrine", "migrations"],
   "type": "library",
   "license": "MIT",
-  "homepage": "https://github.com/nettrine/migrations",
+  "homepage": "https://github.com/contributte/doctrine-migrations",
   "authors": [
     {
       "name": "Milan Felix Šulc",

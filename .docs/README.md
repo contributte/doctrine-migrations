@@ -1,4 +1,4 @@
-# Nettrine Migrations
+# Contributte Doctrine Migrations
 
 [Doctrine/Migrations](https://www.doctrine-project.org/projects/migrations.html) for Nette Framework.
 
@@ -37,15 +37,15 @@ Take advantage of enpowering this package with 2 extra packages:
 
 ### `doctrine/orm`
 
-This package relies on `doctrine/orm`, use prepared [nettrine/orm](https://github.com/nettrine/orm) integration.
-Doctrine ORM depends on Doctrine DBAL, use prepared [nettrine/dbal](https://github.com/nettrine/dbal) integration
+This package relies on `doctrine/orm`, use prepared [contributte/doctrine-orm](https://github.com/contributte/doctrine-orm) integration.
+Doctrine ORM depends on Doctrine DBAL, use prepared [contributte/doctrine-dbal](https://github.com/contributte/doctrine-dbal) integration
 
 ```bash
 composer require nettrine/dbal
 composer require nettrine/orm
 ```
 
-Without these packages the migrations can't be processed, because they need a database connection and entities information. Don't forget to configure Doctrine DBAL & ORM properly with [console bridge](https://github.com/nettrine/orm/tree/master/.docs#console-bridge). Some commands need special treatment.
+Without these packages the migrations can't be processed, because they need a database connection and entities information. Don't forget to configure Doctrine DBAL & ORM properly with [console bridge](https://github.com/contributte/doctrine-orm/tree/master/.docs#console-bridge). Some commands need special treatment.
 
 
 ### `symfony/console`

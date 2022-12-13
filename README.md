@@ -1,14 +1,14 @@
-![](https://heatbadger.now.sh/github/readme/nettrine/migrations/)
+![](https://heatbadger.now.sh/github/readme/contributte/doctrine-migrations/)
 
 <p align=center>
-  <a href="https://github.com/nettrine/migrations/actions"><img src="https://badgen.net/github/checks/nettrine/migrations/master?cache=300"></a>
+  <a href="https://github.com/contributte/doctrine-migrations/actions"><img src="https://badgen.net/github/checks/nettrine/migrations/master?cache=300"></a>
   <a href="https://coveralls.io/r/nettrine/migrations"><img src="https://badgen.net/coveralls/c/github/nettrine/migrations?cache=300"></a>
   <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://badgen.net/packagist/dm/nettrine/migrations"></a>
   <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://badgen.net/packagist/v/nettrine/migrations"></a>
 </p>
 <p align=center>
   <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://badgen.net/packagist/php/nettrine/migrations"></a>
-  <a href="https://github.com/nettrine/migrations"><img src="https://badgen.net/github/license/nettrine/migrations"></a>
+  <a href="https://github.com/contributte/doctrine-migrations"><img src="https://badgen.net/github/license/contributte/doctrine-migrations"></a>
   <a href="https://bit.ly/ctteg"><img src="https://badgen.net/badge/support/gitter/cyan"></a>
   <a href="https://bit.ly/cttfo"><img src="https://badgen.net/badge/support/forum/yellow"></a>
   <a href="https://contributte.org/partners.html"><img src="https://badgen.net/badge/sponsor/donations/F96854"></a>
