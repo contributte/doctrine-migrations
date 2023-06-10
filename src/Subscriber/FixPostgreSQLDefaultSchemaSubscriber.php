@@ -23,7 +23,7 @@ final class FixPostgreSQLDefaultSchemaSubscriber implements EventSubscriber
 		$schemaManager = $args
 			->getEntityManager()
 			->getConnection()
-			->getSchemaManager();
+			->createSchemaManager();
 
 		if (!$schemaManager instanceof PostgreSQLSchemaManager) {
 			return;

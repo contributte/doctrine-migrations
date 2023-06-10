@@ -12,24 +12,17 @@ use Psr\Log\NullLogger;
 class DbalMigrationFactory implements MigrationFactory
 {
 
-	/** @var Container */
-	private $container;
+	private Container $container;
 
-	/** @var Connection */
-	private $connection;
+	private Connection $connection;
 
-	/** @var LoggerInterface */
-	private $logger;
+	private LoggerInterface $logger;
 
 	public function __construct(Container $container, Connection $connection, ?LoggerInterface $logger = null)
 	{
 		$this->container = $container;
 		$this->connection = $connection;
-		if ($logger === null) {
-			$this->logger = new NullLogger();
-		} else {
-			$this->logger = $logger;
-		}
+		$this->logger = $logger ?? new NullLogger();
 	}
 
 	public function createVersion(string $migrationClassName): AbstractMigration

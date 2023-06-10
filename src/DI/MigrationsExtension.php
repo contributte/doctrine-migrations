@@ -42,7 +42,7 @@ final class MigrationsExtension extends CompilerExtension
 				Configuration::VERSIONS_ORGANIZATION_BY_YEAR_AND_MONTH
 			),
 			'customTemplate' => Expect::string(),
-            'allOrNothing' => Expect::bool(false)
+			'allOrNothing' => Expect::bool(false),
 		]);
 	}
 
@@ -64,7 +64,7 @@ final class MigrationsExtension extends CompilerExtension
 			->addSetup('setCustomTemplate', [$config->customTemplate])
 			->addSetup('setMetadataStorageConfiguration', [$storage])
 			->addSetup('addMigrationsDirectory', [$config->namespace, $config->directory])
-            ->addSetup('setAllOrNothing', [$config->allOrNothing]);;
+			->addSetup('setAllOrNothing', [$config->allOrNothing]);
 
 		if ($config->versionsOrganization === Configuration::VERSIONS_ORGANIZATION_BY_YEAR) {
 			$configuration->addSetup('setMigrationsAreOrganizedByYear');

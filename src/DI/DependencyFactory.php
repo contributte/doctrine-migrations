@@ -17,20 +17,15 @@ use Psr\Log\LoggerInterface;
 class DependencyFactory
 {
 
-	/** @var Configuration */
-	private $configuration;
+	private Configuration $configuration;
 
-	/** @var Connection|null */
-	private $connection;
+	private ?Connection $connection = null;
 
-	/** @var EntityManagerInterface|null */
-	private $entityManager;
+	private ?EntityManagerInterface $entityManager = null;
 
-	/** @var LoggerInterface|null */
-	private $logger;
+	private ?LoggerInterface $logger = null;
 
-	/** @var DbalMigrationFactory */
-	private $migrationFactory;
+	private DbalMigrationFactory $migrationFactory;
 
 	public function __construct(Configuration $configuration, DbalMigrationFactory $migrationFactory, ?Connection $connection = null, ?EntityManagerInterface $entityManager = null, ?LoggerInterface $logger = null)
 	{
