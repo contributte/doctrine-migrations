@@ -3,6 +3,7 @@
 namespace Nettrine\Migrations\DI;
 
 use Doctrine\Migrations\Configuration\Configuration;
+use Doctrine\Migrations\DependencyFactory as NativeDependencyFactory;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
 use Doctrine\Migrations\Tools\Console\Command\CurrentCommand;
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
@@ -20,6 +21,7 @@ use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
 use Nette\DI\CompilerExtension;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
+use Nettrine\Migrations\DependencyFactory;
 use Nettrine\Migrations\Version\DbalMigrationFactory;
 use stdClass;
 
@@ -34,7 +36,7 @@ final class MigrationsExtension extends CompilerExtension
 		return Expect::structure([
 			'table' => Expect::string('doctrine_migrations'),
 			'column' => Expect::string('version'),
-			'directories' => Expect::array()->required(),
+			'directories' => Expect::arrayOf(Expect::string(), Expect::string())->required(),
 			'versionsOrganization' => Expect::anyOf(
 				null,
 				Configuration::VERSIONS_ORGANIZATION_BY_YEAR,
@@ -77,12 +79,12 @@ final class MigrationsExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('migrationFactory'))
 			->setFactory(DbalMigrationFactory::class);
 
-		$builder->addDefinition($this->prefix('nettrineDependencyFactory'))
-			->setFactory(DependencyFactory::class)
-			->setAutowired(false);
-
 		$builder->addDefinition($this->prefix('dependencyFactory'))
-			->setFactory($this->prefix('@nettrineDependencyFactory') . '::createDependencyFactory');
+			->setType(NativeDependencyFactory::class)
+			->setFactory($this->prefix('@internal.dependencyFactory::create'));
+
+		$builder->addDefinition($this->prefix('internal.dependencyFactory'))
+			->setFactory(DependencyFactory::class);
 
 		// Register commands
 
