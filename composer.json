@@ -18,7 +18,7 @@
   "require": {
     "php": ">=8.2",
     "nette/di": "^3.2.3",
-    "doctrine/migrations": "^3.6.0",
+    "doctrine/migrations": "^3.8.2",
     "symfony/console": "^6.2.0"
   },
   "require-dev": {
