@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Contributte" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
 	<!-- Rulesets -->
-	<rule ref="./vendor/contributte/qa/ruleset-8.2.xml"/>
+	<rule ref="./vendor/contributte/qa/ruleset-8.2.xml">
+		<exclude name="SlevomatCodingStandard.Classes.SuperfluousInterfaceNaming.SuperfluousSuffix"/>
+	</rule>
 
 	<!-- Rules -->
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">

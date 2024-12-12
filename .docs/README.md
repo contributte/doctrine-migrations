@@ -51,6 +51,27 @@ nettrine.migrations:
   directories: array<string, string>
   versionsOrganization: <null|year|year_and_month>
   customTemplate: <null|path>
+  allOrNothing: <bool>
+
+  migrationFactory: <service>
+  logger: <service>
+  connection: <string>
+  manager: <string>
+```
+
+**Multiple databases**
+
+```php
+$this->configurator->addDynamicParameters([
+	'env' => getenv(),
+]);
+```
+
+```neon
+nettrine.migrations:
+  directories:
+    App\Migrations: %appDir%/migrations
+  connection: %env.DATABASE_CONNECTION%
 ```
 
 ## Usage
@@ -136,4 +157,3 @@ Since this moment when you type `bin/console`, there'll be registered commands f
 
 > [!TIP]
 > Take a look at more examples in [contributte/doctrine](https://github.com/contributte/doctrine/tree/master/.docs).
-

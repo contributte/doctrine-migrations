@@ -10,26 +10,27 @@ use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
 use Nette\DI\Compiler;
 use Nettrine\Migrations\DI\MigrationsExtension;
-use Nettrine\Migrations\Version\DbalMigrationFactory;
+use Nettrine\Migrations\Exceptions\LogicalException;
+use Nettrine\Migrations\Migration\MigrationFactoryDecorator;
 use Symfony\Component\Console\Application;
 use Tester\Assert;
 
 require_once __DIR__ . '/../../bootstrap.php';
 
+// OK
 Toolkit::test(function (): void {
 	$container = ContainerBuilder::of()
 		->withCompiler(function (Compiler $compiler): void {
 			$compiler->addExtension('migrations', new MigrationsExtension());
 			$compiler->addConfig(Neonkit::load('
-				parameters:
-					appDir: /root
 				migrations:
 					directories:
-						App\Domain: %appDir%/migrations
+						App\Domain: /root/migrations
 				services:
 					- Symfony\Component\Console\Application
 					- Doctrine\DBAL\Driver\Mysqli\Driver
 					- Doctrine\DBAL\Connection([])
+					- Tests\Mocks\DummyConnectionRegistry
 			'));
 		})
 		->build();
@@ -45,5 +46,23 @@ Toolkit::test(function (): void {
 	/** @var DependencyFactory $dependencyFactory */
 	$dependencyFactory = $container->getByType(DependencyFactory::class);
 	Assert::type(DependencyFactory::class, $dependencyFactory);
-	Assert::type(DbalMigrationFactory::class, $dependencyFactory->getMigrationFactory());
+	Assert::type(MigrationFactoryDecorator::class, $dependencyFactory->getMigrationFactory());
+});
+
+// No ConnectionRegistry or ManagerRegistry
+Toolkit::test(function (): void {
+	Assert::exception(function (): void {
+		$container = ContainerBuilder::of()
+			->withCompiler(function (Compiler $compiler): void {
+				$compiler->addExtension('migrations', new MigrationsExtension());
+				$compiler->addConfig(Neonkit::load('
+				migrations:
+					directories:
+						App\Domain: /root/migrations
+			'));
+			})
+			->build();
+
+		$container->getByType(DependencyFactory::class);
+	}, LogicalException::class, 'You must provide either ManagerRegistry or ConnectionRegistry.');
 });

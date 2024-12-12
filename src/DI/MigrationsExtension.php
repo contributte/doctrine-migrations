@@ -3,7 +3,7 @@
 namespace Nettrine\Migrations\DI;
 
 use Doctrine\Migrations\Configuration\Configuration;
-use Doctrine\Migrations\DependencyFactory as NativeDependencyFactory;
+use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
 use Doctrine\Migrations\Tools\Console\Command\CurrentCommand;
 use Doctrine\Migrations\Tools\Console\Command\DiffCommand;
@@ -18,11 +18,13 @@ use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
 use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand;
 use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\Migrations\Version\MigrationFactory;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
 use Nette\Schema\Expect;
 use Nette\Schema\Schema;
-use Nettrine\Migrations\DependencyFactory;
-use Nettrine\Migrations\Version\DbalMigrationFactory;
+use Nettrine\Migrations\DependencyFactoryCreator;
+use Nettrine\Migrations\DI\Helpers\SmartStatement;
 use stdClass;
 
 /**
@@ -33,6 +35,11 @@ final class MigrationsExtension extends CompilerExtension
 
 	public function getConfigSchema(): Schema
 	{
+		$expectService = Expect::anyOf(
+			Expect::string()->required()->assert(fn ($input) => str_starts_with($input, '@') || class_exists($input) || interface_exists($input)),
+			Expect::type(Statement::class)->required(),
+		);
+
 		return Expect::structure([
 			'table' => Expect::string('doctrine_migrations'),
 			'column' => Expect::string('version'),
@@ -44,6 +51,10 @@ final class MigrationsExtension extends CompilerExtension
 			),
 			'customTemplate' => Expect::string(),
 			'allOrNothing' => Expect::bool(false),
+			'logger' => (clone $expectService),
+			'migrationFactory' => (clone $expectService),
+			'connection' => Expect::string(),
+			'manager' => Expect::string(),
 		]);
 	}
 
@@ -66,6 +77,14 @@ final class MigrationsExtension extends CompilerExtension
 			->addSetup('setMetadataStorageConfiguration', [$storage])
 			->addSetup('setAllOrNothing', [$config->allOrNothing]);
 
+		if ($config->connection !== null) {
+			$configuration->addSetup('setConnectionName', [$config->connection]);
+		}
+
+		if ($config->manager !== null) {
+			$configuration->addSetup('setEntityManagerName', [$config->manager]);
+		}
+
 		foreach ($config->directories as $namespace => $directory) {
 			$configuration->addSetup('addMigrationsDirectory', [$namespace, $directory]);
 		}
@@ -76,15 +95,13 @@ final class MigrationsExtension extends CompilerExtension
 			$configuration->addSetup('setMigrationsAreOrganizedByYearAndMonth');
 		}
 
-		$builder->addDefinition($this->prefix('migrationFactory'))
-			->setFactory(DbalMigrationFactory::class);
+		$dependencyFactory = $builder->addDefinition($this->prefix('dependencyFactory'))
+			->setType(DependencyFactory::class)
+			->setFactory(DependencyFactoryCreator::class . '::create');
 
-		$builder->addDefinition($this->prefix('dependencyFactory'))
-			->setType(NativeDependencyFactory::class)
-			->setFactory($this->prefix('@internal.dependencyFactory::create'));
-
-		$builder->addDefinition($this->prefix('internal.dependencyFactory'))
-			->setFactory(DependencyFactory::class);
+		if ($config->migrationFactory !== null) {
+			$dependencyFactory->addSetup('setService', [MigrationFactory::class, SmartStatement::from($config->migrationFactory)]);
+		}
 
 		// Register commands
 
