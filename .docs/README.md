@@ -70,7 +70,8 @@ extensions:
 nettrine.migrations:
   table: <string>
   column: <string>
-  directories: <array>
+  directory: <path>
+  namespace: <string>
   versionsOrganization: <null|year|year_and_month>
   customTemplate: <null|path>
 ```
@@ -81,8 +82,7 @@ Minimal configuration:
 
 ```yaml
 nettrine.migrations:
-  directories:
-    App\Migrations: %appDir%/migrations
+  directory: %appDir%/migrations
 ```
 
 
