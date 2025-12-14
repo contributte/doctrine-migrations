@@ -9,10 +9,6 @@
     {
       "name": "Milan Felix Šulc",
       "homepage": "https://f3l1x.io"
-    },
-    {
-      "name": "Josef Benjac",
-      "homepage": "http://josefbenjac.com"
     }
   ],
   "require": {
@@ -26,6 +22,7 @@
     "contributte/qa": "^0.4.0",
     "contributte/tester": "^0.4.0",
     "contributte/phpstan": "^0.2.0",
+    "psr/log": "^3.0",
     "symfony/console": "^7.2.0"
   },
   "autoload": {
