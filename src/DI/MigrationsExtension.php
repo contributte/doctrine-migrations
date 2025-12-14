@@ -18,6 +18,7 @@ use Doctrine\Migrations\Tools\Console\Command\StatusCommand;
 use Doctrine\Migrations\Tools\Console\Command\SyncMetadataCommand;
 use Doctrine\Migrations\Tools\Console\Command\UpToDateCommand;
 use Doctrine\Migrations\Tools\Console\Command\VersionCommand;
+use Doctrine\Migrations\Version\Comparator;
 use Doctrine\Migrations\Version\MigrationFactory;
 use Nette\DI\CompilerExtension;
 use Nette\DI\Definitions\Statement;
@@ -53,6 +54,7 @@ final class MigrationsExtension extends CompilerExtension
 			'allOrNothing' => Expect::bool(false),
 			'logger' => (clone $expectService),
 			'migrationFactory' => (clone $expectService),
+			'comparator' => (clone $expectService),
 			'connection' => Expect::string(),
 			'manager' => Expect::string(),
 		]);
@@ -103,72 +105,76 @@ final class MigrationsExtension extends CompilerExtension
 			$dependencyFactory->addSetup('setService', [MigrationFactory::class, SmartStatement::from($config->migrationFactory)]);
 		}
 
+		if ($config->comparator !== null) {
+			$dependencyFactory->addSetup('setService', [Comparator::class, SmartStatement::from($config->comparator)]);
+		}
+
 		// Register commands
 
 		$builder->addDefinition($this->prefix('currentCommand'))
 			->setFactory(CurrentCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', CurrentCommand::getDefaultName());
+			->addTag('console.command', 'migrations:current');
 
 		$builder->addDefinition($this->prefix('diffCommand'))
 			->setFactory(DiffCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', DiffCommand::getDefaultName());
+			->addTag('console.command', 'migrations:diff');
 
 		$builder->addDefinition($this->prefix('dumpSchemaCommand'))
 			->setFactory(DumpSchemaCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', DumpSchemaCommand::getDefaultName());
+			->addTag('console.command', 'migrations:dump-schema');
 
 		$builder->addDefinition($this->prefix('executeCommand'))
 			->setFactory(ExecuteCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', ExecuteCommand::getDefaultName());
+			->addTag('console.command', 'migrations:execute');
 
 		$builder->addDefinition($this->prefix('generateCommand'))
 			->setFactory(GenerateCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', GenerateCommand::getDefaultName());
+			->addTag('console.command', 'migrations:generate');
 
 		$builder->addDefinition($this->prefix('latestCommand'))
 			->setFactory(LatestCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', LatestCommand::getDefaultName());
+			->addTag('console.command', 'migrations:latest');
 
 		$builder->addDefinition($this->prefix('listCommand'))
 			->setFactory(ListCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', ListCommand::getDefaultName());
+			->addTag('console.command', 'migrations:list');
 
 		$builder->addDefinition($this->prefix('migrateCommand'))
 			->setFactory(MigrateCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', MigrateCommand::getDefaultName());
+			->addTag('console.command', 'migrations:migrate');
 
 		$builder->addDefinition($this->prefix('rollupCommand'))
 			->setFactory(RollupCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', RollupCommand::getDefaultName());
+			->addTag('console.command', 'migrations:rollup');
 
 		$builder->addDefinition($this->prefix('statusCommand'))
 			->setFactory(StatusCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', StatusCommand::getDefaultName());
+			->addTag('console.command', 'migrations:status');
 
 		$builder->addDefinition($this->prefix('syncMetadataCommand'))
 			->setFactory(SyncMetadataCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', SyncMetadataCommand::getDefaultName());
+			->addTag('console.command', 'migrations:sync-metadata-storage');
 
 		$builder->addDefinition($this->prefix('upToDateCommand'))
 			->setFactory(UpToDateCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', UpToDateCommand::getDefaultName());
+			->addTag('console.command', 'migrations:up-to-date');
 
 		$builder->addDefinition($this->prefix('versionCommand'))
 			->setFactory(VersionCommand::class)
 			->setAutowired(false)
-			->addTag('console.command', VersionCommand::getDefaultName());
+			->addTag('console.command', 'migrations:version');
 	}
 
 }
