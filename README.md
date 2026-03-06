@@ -2,7 +2,7 @@
 
 <p align=center>
   <a href="https://github.com/contributte/doctrine-migrations/actions"><img src="https://badgen.net/github/checks/nettrine/migrations/master?cache=300"></a>
-  <a href="https://coveralls.io/r/nettrine/migrations"><img src="https://badgen.net/coveralls/c/github/nettrine/migrations?cache=300"></a>
+  <a href="https://codecov.io/gh/contributte/doctrine-migrations"><img src="https://badgen.net/codecov/c/github/contributte/doctrine-migrations?cache=300"></a>
   <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://badgen.net/packagist/dm/nettrine/migrations"></a>
   <a href="https://packagist.org/packages/nettrine/migrations"><img src="https://badgen.net/packagist/v/nettrine/migrations"></a>
 </p>
