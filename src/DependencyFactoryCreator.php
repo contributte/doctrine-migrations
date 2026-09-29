@@ -2,9 +2,11 @@
 
 namespace Nettrine\Migrations;
 
+use Doctrine\DBAL\Connection;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\Configuration\Connection\ConnectionRegistryConnection;
+use Doctrine\Migrations\Configuration\Connection\ExistingConnection;
 use Doctrine\Migrations\Configuration\EntityManager\ManagerRegistryEntityManager;
 use Doctrine\Migrations\Configuration\Migration\ExistingConfiguration;
 use Doctrine\Migrations\DependencyFactory;
@@ -43,7 +45,17 @@ final class DependencyFactoryCreator
 				$logger
 			);
 		} else {
-			throw new LogicalException('You must provide either ManagerRegistry or ConnectionRegistry.');
+			$connection = $container->getByType(Connection::class, false);
+
+			if ($connection === null) {
+				throw new LogicalException('You must provide either ManagerRegistry, ConnectionRegistry or Connection.');
+			}
+
+			$dependencyFactory = DependencyFactory::fromConnection(
+				new ExistingConfiguration($configuration),
+				new ExistingConnection($connection),
+				$logger
+			);
 		}
 
 		$migrationFactory = new class ($dependencyFactory) implements MigrationFactory {
