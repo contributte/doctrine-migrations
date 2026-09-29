@@ -14,6 +14,7 @@ use Doctrine\Migrations\Version\MigrationFactory;
 use Doctrine\Persistence\ConnectionRegistry;
 use Doctrine\Persistence\ManagerRegistry;
 use Nette\DI\Container;
+use Nette\DI\MissingServiceException;
 use Nettrine\Migrations\Exceptions\LogicalException;
 use Nettrine\Migrations\Migration\MigrationFactoryDecorator;
 use Psr\Log\LoggerInterface;
@@ -45,22 +46,19 @@ final class DependencyFactoryCreator
 				$logger
 			);
 		} else {
-			$connections = $container->findByType(Connection::class);
-
-			if ($connections === []) {
-				throw new LogicalException('You must provide either ManagerRegistry, ConnectionRegistry or Connection.');
-			}
-
-			if (count($connections) > 1) {
-				throw new LogicalException('Multiple DBAL connections found, provide ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
-			}
-
 			if ($configuration->getConnectionName() !== null) {
 				throw new LogicalException('Named connection requires ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
 			}
 
-			$connection = $container->getService($connections[0]);
-			assert($connection instanceof Connection);
+			try {
+				$connection = $container->getByType(Connection::class, false);
+			} catch (MissingServiceException) {
+				throw new LogicalException('Multiple DBAL connections found, provide ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
+			}
+
+			if ($connection === null) {
+				throw new LogicalException('You must provide either ManagerRegistry, ConnectionRegistry or Connection.');
+			}
 
 			$dependencyFactory = DependencyFactory::fromConnection(
 				new ExistingConfiguration($configuration),
