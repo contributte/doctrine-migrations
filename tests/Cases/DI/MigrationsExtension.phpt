@@ -5,6 +5,7 @@ namespace Tests\Cases\Unit\DI;
 use Contributte\Tester\Toolkit;
 use Contributte\Tester\Utils\ContainerBuilder;
 use Contributte\Tester\Utils\Neonkit;
+use Doctrine\DBAL\Connection;
 use Doctrine\Migrations\Configuration\Configuration;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Tools\Console\Command\DoctrineCommand;
@@ -49,7 +50,30 @@ Toolkit::test(function (): void {
 	Assert::type(MigrationFactoryDecorator::class, $dependencyFactory->getMigrationFactory());
 });
 
-// No ConnectionRegistry or ManagerRegistry
+// Only Connection (without ConnectionRegistry or ManagerRegistry)
+Toolkit::test(function (): void {
+	$container = ContainerBuilder::of()
+		->withCompiler(function (Compiler $compiler): void {
+			$compiler->addExtension('migrations', new MigrationsExtension());
+			$compiler->addConfig(Neonkit::load('
+				migrations:
+					directories:
+						App\Domain: /root/migrations
+				services:
+					- Doctrine\DBAL\Driver\Mysqli\Driver
+					- Doctrine\DBAL\Connection([])
+			'));
+		})
+		->build();
+
+	/** @var DependencyFactory $dependencyFactory */
+	$dependencyFactory = $container->getByType(DependencyFactory::class);
+	Assert::type(DependencyFactory::class, $dependencyFactory);
+	Assert::same($container->getByType(Connection::class), $dependencyFactory->getConnection());
+	Assert::type(MigrationFactoryDecorator::class, $dependencyFactory->getMigrationFactory());
+});
+
+// No ConnectionRegistry, ManagerRegistry or Connection
 Toolkit::test(function (): void {
 	Assert::exception(function (): void {
 		$container = ContainerBuilder::of()
@@ -64,5 +88,5 @@ Toolkit::test(function (): void {
 			->build();
 
 		$container->getByType(DependencyFactory::class);
-	}, LogicalException::class, 'You must provide either ManagerRegistry or ConnectionRegistry.');
+	}, LogicalException::class, 'You must provide either ManagerRegistry, ConnectionRegistry or Connection.');
 });
