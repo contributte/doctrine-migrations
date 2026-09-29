@@ -45,11 +45,22 @@ final class DependencyFactoryCreator
 				$logger
 			);
 		} else {
-			$connection = $container->getByType(Connection::class, false);
+			$connections = $container->findByType(Connection::class);
 
-			if ($connection === null) {
+			if ($connections === []) {
 				throw new LogicalException('You must provide either ManagerRegistry, ConnectionRegistry or Connection.');
 			}
+
+			if (count($connections) > 1) {
+				throw new LogicalException('Multiple DBAL connections found, provide ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
+			}
+
+			if ($configuration->getConnectionName() !== null) {
+				throw new LogicalException('Named connection requires ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
+			}
+
+			$connection = $container->getService($connections[0]);
+			assert($connection instanceof Connection);
 
 			$dependencyFactory = DependencyFactory::fromConnection(
 				new ExistingConfiguration($configuration),
