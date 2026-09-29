@@ -73,6 +73,50 @@ Toolkit::test(function (): void {
 	Assert::type(MigrationFactoryDecorator::class, $dependencyFactory->getMigrationFactory());
 });
 
+// Multiple Connections (without ConnectionRegistry or ManagerRegistry)
+Toolkit::test(function (): void {
+	Assert::exception(function (): void {
+		$container = ContainerBuilder::of()
+			->withCompiler(function (Compiler $compiler): void {
+				$compiler->addExtension('migrations', new MigrationsExtension());
+				$compiler->addConfig(Neonkit::load('
+				migrations:
+					directories:
+						App\Domain: /root/migrations
+				services:
+					- Doctrine\DBAL\Driver\Mysqli\Driver
+					first: Doctrine\DBAL\Connection([])
+					second: Doctrine\DBAL\Connection([])
+			'));
+			})
+			->build();
+
+		$container->getByType(DependencyFactory::class);
+	}, LogicalException::class, 'Multiple DBAL connections found, provide ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
+});
+
+// Named connection with only Connection (without ConnectionRegistry or ManagerRegistry)
+Toolkit::test(function (): void {
+	Assert::exception(function (): void {
+		$container = ContainerBuilder::of()
+			->withCompiler(function (Compiler $compiler): void {
+				$compiler->addExtension('migrations', new MigrationsExtension());
+				$compiler->addConfig(Neonkit::load('
+				migrations:
+					directories:
+						App\Domain: /root/migrations
+					connection: default
+				services:
+					- Doctrine\DBAL\Driver\Mysqli\Driver
+					- Doctrine\DBAL\Connection([])
+			'));
+			})
+			->build();
+
+		$container->getByType(DependencyFactory::class);
+	}, LogicalException::class, 'Named connection requires ConnectionRegistry or ManagerRegistry (e.g. nettrine/orm).');
+});
+
 // No ConnectionRegistry, ManagerRegistry or Connection
 Toolkit::test(function (): void {
 	Assert::exception(function (): void {

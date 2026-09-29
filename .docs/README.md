@@ -61,6 +61,8 @@ nettrine.migrations:
 
 **Multiple databases**
 
+With only [nettrine/dbal](https://github.com/contributte/doctrine-dbal) (no registry), the single `Doctrine\DBAL\Connection` service is used; named or multiple connections require `ConnectionRegistry` or `ManagerRegistry` (e.g. [nettrine/orm](https://github.com/contributte/doctrine-orm)).
+
 ```php
 $this->configurator->addDynamicParameters([
 	'env' => getenv(),
